@@ -130,28 +130,19 @@ class Gnome:
 
     def _find_bush(self, gameMap: Map):
         for d in range(0, Gnome.MAX_DISTANCE + 1):
-            x0 = self.p.x - d
-            y0 = self.p.y - d
-            x1 = x0 + (2 * d)
-            y1 = y0 + (2 * d)
+            x0 = self.p.x
+            y0 = self.p.y
 
-            for x in range(x0, x1 + 1):
-                b = gameMap.grid[x][y0]
-                if b.type == BlockType.BUSH:
-                    return b
+            points = []
+            for dx in range(-d,d+1):
+                dy = d-(abs(dx))
+                points.append((x0+dx,y0+dy))
+                if dy!= 0 : points.append((x0+dx,y0-dy))
 
-            for y in range(y0, y1 + 1):
-                b = gameMap.grid[x1][y]
-                if b.type == BlockType.BUSH:
-                    return b
-
-            for x in range(x0, x1 + 1):
-                b = gameMap.grid[x][y1]
-                if b.type == BlockType.BUSH:
-                    return b
-
-            for y in range(y0, y1 + 1):
-                b = gameMap.grid[x0][y]
+            random.shuffle(points)
+            for p in points:
+                x,y = p
+                b = gameMap.grid[x][y]
                 if b.type == BlockType.BUSH:
                     return b
 
