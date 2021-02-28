@@ -13,7 +13,8 @@ BUSH_SPRITE = pygame.image.load(SPRITE_PATH + "bush.bmp")
 ROCK_SPRITE = pygame.image.load(SPRITE_PATH + "rock.bmp")
 TREE_SPRITE = pygame.image.load(SPRITE_PATH + "tree.bmp")
 GRASS_SPRITE = pygame.image.load(SPRITE_PATH + "grass.bmp")
-
+GNOME_SPRITE = pygame.image.load(SPRITE_PATH + "gnome.bmp")
+CHEST_SPRITE = pygame.image.load(SPRITE_PATH + "chest.bmp")
 
 class Point:
 
@@ -48,7 +49,7 @@ class Block:
         rect = sprite.get_rect()
         rect.x = self.p.x * BLOCK_SIZE[0]
         rect.y = self.p.y * BLOCK_SIZE[1]
-        surf.blit(BLOCK_TYPE_SPRITES[self.type], rect)
+        surf.blit(sprite, rect)
 
 
 class Map:
@@ -62,6 +63,29 @@ class Map:
             for b in line:
                 b.draw(surf)
 
+class Chest:
+
+    def __init__(self, position: Point):
+        self.position = position
+
+    def draw(self, surf: pygame.Surface):
+        sprite = GNOME_SPRITE
+        rect = sprite.get_rect()
+        rect.x = self.position.x * BLOCK_SIZE[0]
+        rect.y = self.position.y * BLOCK_SIZE[1]
+        surf.blit(CHEST_SPRITE, rect)
+
+class Gnome:
+
+    def __init__(self, position: Point):
+        self.position = position
+
+    def draw(self, surf: pygame.Surface):
+        sprite = GNOME_SPRITE
+        rect = sprite.get_rect()
+        rect.x = self.position.x * BLOCK_SIZE[0]
+        rect.y = self.position.y * BLOCK_SIZE[1]
+        surf.blit(GNOME_SPRITE, rect)
 
 pygame.init()
 window_surface = pygame.display.set_mode(WINDOW_SIZE)
@@ -72,6 +96,8 @@ draw_time_delay = 0
 is_game_over = False
 
 gameMap = Map()
+gnome = Gnome(Point(MAP_SIZE[0]//2, MAP_SIZE[1]//2))
+chest = Chest(Point(MAP_SIZE[0]//2+1, MAP_SIZE[1]//2))
 
 clock = pygame.time.Clock()
 while True:
@@ -85,4 +111,6 @@ while True:
 
     window_surface.fill((0, 0, 0,))
     gameMap.draw(window_surface)
+    gnome.draw(window_surface)
+    chest.draw(window_surface)
     pygame.display.flip()
