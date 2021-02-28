@@ -16,6 +16,9 @@ GRASS_SPRITE = pygame.image.load(SPRITE_PATH + "grass.bmp")
 GNOME_SPRITE = pygame.image.load(SPRITE_PATH + "gnome.bmp")
 CHEST_SPRITE = pygame.image.load(SPRITE_PATH + "chest.bmp")
 
+FOOD_THRESHOLD = 1
+FOOD_MULTIPLICATOR = 2
+
 
 class Point:
 
@@ -71,8 +74,9 @@ class Map:
             for b in line:
                 b.draw(surf)
 
-    def block(self, pos:Point):
+    def block(self, pos: Point):
         return self.grid[pos.x][pos.y]
+
 
 class Chest:
 
@@ -92,7 +96,7 @@ class Gnome:
     MAX_DISTANCE = 5
 
     def __init__(self, position: Point, chest: Chest):
-        self.chest : Chest = chest
+        self.chest: Chest = chest
         self.p: Point = position
         self.food_count = 0
 
@@ -102,9 +106,10 @@ class Gnome:
             b = self._find_bush(gameMap)
             if b.p != self.p:
                 self._move(b)
-            else: self.food_count += 1
+            else:
+                self.food_count += 1
 
-        else :
+        else:
             b = gameMap.block(self.chest.position)
             if b.p != self.p:
                 self._move(b)
@@ -114,7 +119,7 @@ class Gnome:
 
         return b
 
-    def _move(self, b:Block):
+    def _move(self, b: Block):
         dx = b.p.x - self.p.x
         dy = b.p.y - self.p.y
 
@@ -162,8 +167,17 @@ class Gnome:
 
 class Civilization:
 
-    def __init__(self):
-        self.food_count = 0
+    def __init__(self, chest: Chest):
+        self.chest: Chest = chest
+        self.food_threshold = FOOD_THRESHOLD
+
+    def update(self):
+        print(self.chest.food_count)
+        if self.food_threshold <= self.chest.food_count:
+            self.chest.food_count -= self.food_threshold
+            self.food_threshold *= FOOD_MULTIPLICATOR
+
+            return Gnome(Point(self.chest.position.x, self.chest.position.y), self.chest)
 
 
 pygame.init()
@@ -176,31 +190,34 @@ is_game_over = False
 
 gameMap = Map()
 chest = Chest(Point(MAP_SIZE[0] // 2 + 1, MAP_SIZE[1] // 2))
-gnome = Gnome(Point(MAP_SIZE[0] // 2, MAP_SIZE[1] // 2), chest)
-
+civ = Civilization(chest)
+gameMap.block(chest.position).type = BlockType.GRASS
+gnomes = [Gnome(Point(MAP_SIZE[0] // 2, MAP_SIZE[1] // 2), chest)]
 
 clock = pygame.time.Clock()
 while True:
     dt = clock.tick()
 
-    b = None
+    bs = []
     events = []
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-        if event.type == pygame.KEYDOWN :
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                b = gnome.update(gameMap)
-
+                bs = [gnome.update(gameMap) for gnome in gnomes]
+                g = civ.update()
+                if g is not None:
+                    gnomes.append(g)
         events.append(event)
 
     window_surface.fill((0, 0, 0,))
     gameMap.draw(window_surface)
     chest.draw(window_surface)
-    gnome.draw(window_surface)
-    if b is not None:
-        pygame.draw.rect(window_surface, pygame.Color(255, 0, 0), b.rect(), 2)
-
+    [gnome.draw(window_surface) for gnome in gnomes]
+    for b in bs:
+        if b is not None:
+            pygame.draw.rect(window_surface, pygame.Color(255, 0, 0), b.rect(), 2)
 
     pygame.display.flip()
