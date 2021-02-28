@@ -17,7 +17,7 @@ GNOME_SPRITE = pygame.image.load(SPRITE_PATH + "gnome.bmp")
 CHEST_SPRITE = pygame.image.load(SPRITE_PATH + "chest.bmp")
 
 FOOD_THRESHOLD = 1
-FOOD_MULTIPLICATOR = 2
+FOOD_MULTIPLICATOR = 1.1
 
 
 class Point:
@@ -93,7 +93,7 @@ class Chest:
 
 
 class Gnome:
-    MAX_DISTANCE = 5
+    MAX_DISTANCE = 50
 
     def __init__(self, position: Point, chest: Chest):
         self.chest: Chest = chest
@@ -104,10 +104,15 @@ class Gnome:
         b = None
         if self.food_count == 0:
             b = self._find_bush(gameMap)
+
+            if b is None :
+                return
+
             if b.p != self.p:
                 self._move(b)
             else:
                 self.food_count += 1
+                b.type = BlockType.GRASS
 
         else:
             b = gameMap.block(self.chest.position)
