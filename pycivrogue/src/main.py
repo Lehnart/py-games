@@ -16,11 +16,15 @@ GRASS_SPRITE = pygame.image.load(SPRITE_PATH + "grass.bmp")
 GNOME_SPRITE = pygame.image.load(SPRITE_PATH + "gnome.bmp")
 CHEST_SPRITE = pygame.image.load(SPRITE_PATH + "chest.bmp")
 
+
 class Point:
 
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
 
 
 class BlockType(Enum):
@@ -41,8 +45,8 @@ BLOCK_TYPE_SPRITES = {
 class Block:
 
     def __init__(self, p: Point, type: BlockType):
-        self.p = p
-        self.type = type
+        self.p: Point = p
+        self.type: BlockType = type
 
     def draw(self, surf: pygame.Surface):
         sprite = BLOCK_TYPE_SPRITES[self.type]
@@ -50,6 +54,10 @@ class Block:
         rect.x = self.p.x * BLOCK_SIZE[0]
         rect.y = self.p.y * BLOCK_SIZE[1]
         surf.blit(sprite, rect)
+
+    def rect(self):
+        bsize = BLOCK_SIZE[0]
+        return pygame.Rect(self.p.x * bsize, self.p.y * bsize, bsize, bsize)
 
 
 class Map:
@@ -63,10 +71,14 @@ class Map:
             for b in line:
                 b.draw(surf)
 
+    def block(self, pos:Point):
+        return self.grid[pos.x][pos.y]
+
 class Chest:
 
     def __init__(self, position: Point):
         self.position = position
+        self.food_count = 0
 
     def draw(self, surf: pygame.Surface):
         sprite = GNOME_SPRITE
@@ -75,17 +87,84 @@ class Chest:
         rect.y = self.position.y * BLOCK_SIZE[1]
         surf.blit(CHEST_SPRITE, rect)
 
-class Gnome:
 
-    def __init__(self, position: Point):
-        self.position = position
+class Gnome:
+    MAX_DISTANCE = 5
+
+    def __init__(self, position: Point, chest: Chest):
+        self.chest : Chest = chest
+        self.p: Point = position
+        self.food_count = 0
+
+    def update(self, gameMap: Map):
+        b = None
+        if self.food_count == 0:
+            b = self._find_bush(gameMap)
+            if b.p != self.p:
+                self._move(b)
+            else: self.food_count += 1
+
+        else :
+            b = gameMap.block(self.chest.position)
+            if b.p != self.p:
+                self._move(b)
+            else:
+                self.food_count -= 1
+                chest.food_count += 1
+
+        return b
+
+    def _move(self, b:Block):
+        dx = b.p.x - self.p.x
+        dy = b.p.y - self.p.y
+
+        if abs(dx) > abs(dy):
+            self.p.x += dx // abs(dx)
+        else:
+            self.p.y += dy // abs(dy)
+
+    def _find_bush(self, gameMap: Map):
+        for d in range(0, Gnome.MAX_DISTANCE + 1):
+            x0 = self.p.x - d
+            y0 = self.p.y - d
+            x1 = x0 + (2 * d)
+            y1 = y0 + (2 * d)
+
+            for x in range(x0, x1 + 1):
+                b = gameMap.grid[x][y0]
+                if b.type == BlockType.BUSH:
+                    return b
+
+            for y in range(y0, y1 + 1):
+                b = gameMap.grid[x1][y]
+                if b.type == BlockType.BUSH:
+                    return b
+
+            for x in range(x0, x1 + 1):
+                b = gameMap.grid[x][y1]
+                if b.type == BlockType.BUSH:
+                    return b
+
+            for y in range(y0, y1 + 1):
+                b = gameMap.grid[x0][y]
+                if b.type == BlockType.BUSH:
+                    return b
+
+        return None
 
     def draw(self, surf: pygame.Surface):
         sprite = GNOME_SPRITE
         rect = sprite.get_rect()
-        rect.x = self.position.x * BLOCK_SIZE[0]
-        rect.y = self.position.y * BLOCK_SIZE[1]
+        rect.x = self.p.x * BLOCK_SIZE[0]
+        rect.y = self.p.y * BLOCK_SIZE[1]
         surf.blit(GNOME_SPRITE, rect)
+
+
+class Civilization:
+
+    def __init__(self):
+        self.food_count = 0
+
 
 pygame.init()
 window_surface = pygame.display.set_mode(WINDOW_SIZE)
@@ -96,21 +175,32 @@ draw_time_delay = 0
 is_game_over = False
 
 gameMap = Map()
-gnome = Gnome(Point(MAP_SIZE[0]//2, MAP_SIZE[1]//2))
-chest = Chest(Point(MAP_SIZE[0]//2+1, MAP_SIZE[1]//2))
+chest = Chest(Point(MAP_SIZE[0] // 2 + 1, MAP_SIZE[1] // 2))
+gnome = Gnome(Point(MAP_SIZE[0] // 2, MAP_SIZE[1] // 2), chest)
+
 
 clock = pygame.time.Clock()
 while True:
     dt = clock.tick()
 
+    b = None
     events = []
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+
+        if event.type == pygame.KEYDOWN :
+            if event.key == pygame.K_SPACE:
+                b = gnome.update(gameMap)
+
         events.append(event)
 
     window_surface.fill((0, 0, 0,))
     gameMap.draw(window_surface)
-    gnome.draw(window_surface)
     chest.draw(window_surface)
+    gnome.draw(window_surface)
+    if b is not None:
+        pygame.draw.rect(window_surface, pygame.Color(255, 0, 0), b.rect(), 2)
+
+
     pygame.display.flip()
