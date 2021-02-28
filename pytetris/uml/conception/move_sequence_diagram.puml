@@ -1,0 +1,51 @@
+@startuml
+actor Player
+participant tetris order 10
+participant rules order 20
+participant board order 30
+participant piece order 40
+
+
+Player -> tetris : move(direction)
+
+
+tetris -> rules : move(direction)
+
+note left of rules : this is blocking call, rules is locked
+
+activate rules
+
+rules -> piece : get_element_positions()
+piece -> rules : positions
+loop [ block in piece ]
+    rules -> board : remove_block(x, y)
+    board -> rules :
+end
+loop [ block in piece ]
+    rules -> board : is_put_valid(next_x, next_y)
+    board -> rules :
+end
+alt [ can move ]
+    loop [ block in piece ]
+        rules -> board : put_block(next_x, next_y)
+        board -> rules :
+    end
+else [ can not move ]
+    alt [ move lateraly ]
+    loop [ block in piece ]
+        rules -> board : put_block(x, y)
+        board -> rules :
+    end
+    else [ move down ]
+        rules -> board : remove_full_lines()
+        board -> rules : line_removed_count
+    end
+end
+
+opt [ if can't put next piece ]
+    rules -> tetris : game_over()
+end
+
+deactivate rules
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+actor Dev
+actor IA
+actor Screen order 30
+
+Dev -> SnakeGame: choose_ai()
+
+create IA
+SnakeGame -> IA : init(snakeGame)
+
+... time pass til update ...
+
+loop until game over
+    SnakeGame -> SnakeGame : update()
+    SnakeGame -> Screen : show()
+    IA -> SnakeGame : get_game_state()
+    SnakeGame <- IA : set_direction(snakeGame)
+
+end
+
+@enduml

@@ -1,0 +1,65 @@
+@startuml
+
+note as N1
+- A Snake game has a board.
+- A board is a grid where each case may contains a block.
+- A block may be a wall element, an apple, a part of the snake.
+- A snake move each turn in a direction.
+- The snake is represented over the board with snake parts.
+- The apple is represented by an apple block
+- When a snake move over an apple, it grows.
+- There is always one apple on the board
+- When a snake move over a wall or a part of him, it s game over.
+- Each turn, the player select the next direction of movement of the snake.
+- If no direction is given, the snake goes forward
+end note
+
+class SnakeGame{
+    start()
+    game_over()
+}
+
+class Rules{
+    put_apple()
+}
+
+class Controller{
+}
+
+class Board{
+    width
+    height
+}
+
+class Block{
+    type
+}
+
+class Snake{
+    move(direction)
+    grow()
+}
+
+class IA{
+    next_move(game_state)
+    evolve()
+}
+
+SnakeGame "1" *-- "1" Board : has
+SnakeGame "1" *-- "1" Rules : has
+
+IA -- Board :  interprets
+IA -- Controller :  uses
+
+Board "0...1" *-- "1" Block : contains [x,y]
+
+Block <|-- SnakeBlock
+Block <|-- WallBlock
+Block <|-- AppleBlock
+
+Rules "1" *-- "1" Snake : controls >
+Rules "1" *-- "1" Board : controls >
+
+Snake "1" o-- "1..." SnakeBlock : is made of
+
+@enduml

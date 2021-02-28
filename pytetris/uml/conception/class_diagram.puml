@@ -1,0 +1,123 @@
+@startuml
+package tetris {
+    class Tetris{
+    - board : Board
+    - rules : Rules
+    + move( direction )
+    + rotate( rotation )
+    + game_over()
+    + is_game_over()
+    }
+}
+
+package tetris.tools {
+    class Timer{
+        + Timer(period, function)
+    }
+
+    enum Direction{
+    LEFT
+    DOWN
+    RIGHT
+    }
+
+    enum Rotation{
+    CLOCKWISE,
+    COUNTERCLOCKWISE
+    }
+}
+
+package tetris.logic {
+    class Rules{
+    - pieceCatalog : PieceCatalog
+    - board : Board
+    - activePiece : Piece
+    - dropTimer : Timer
+    + Rules(board : Board)
+    + move( direction ) : bool
+    + rotate( rotation )
+    + get_score()
+    }
+
+    class PieceShape{
+    - shapes : bool[][][]
+    + PieceShape(shapes:String[])
+    + get_element_positions(rotation : int)
+    }
+
+    class Piece{
+    - shape : PieceShape
+    + Piece(shape:PieceShape)
+    + get_element_positions()
+    + rotate(rotation)
+    }
+
+    class PieceCatalog{
+    - pieces : Piece[]
+    + get_random_piece() : Piece
+    }
+
+    class Board{
+    - width : int
+    - height : int
+    + Board(width: int, height, int)
+    + put_block(x,y)
+    + is_put_valid(x,y)
+    + remove_block(x,y)
+    + remove_full_lines()
+    }
+
+    class Block{
+    }
+
+}
+
+package tetris.grahics {
+    class Window{
+    + Window(Tetris)
+    + draw()
+    }
+
+    class DrawableBoard {
+    + DrawableBoard()
+    + draw( board )
+    }
+
+    class Score{
+    + Score()
+    + draw(score)
+    }
+}
+
+package tetris.controller{
+    class Controller{
+    + Controller(tetris:Tetris)
+    }
+}
+
+Tetris -- Direction : use >
+Rules -- Direction : use >
+Tetris -- Rotation : use >
+Rules -- Rotation : use >
+Rules "1" *-- "1" Timer : use >
+
+
+Tetris "1" *-- "1" Board : has
+Tetris "1" *-- "1" Rules : has
+Tetris "1" *-- "1" Window : has
+Tetris "1" *-- "1" Controller : has
+
+Board "0...1" *-- "1" Block : contains [x,y]
+Rules "1" *-- "1" Board : controls >
+Rules "1" *-- "1" PieceCatalog : has
+Rules "0...1" -- "0...1" Piece : controls
+
+
+PieceCatalog "1" *-- "0...*" PieceShape : knows
+PieceCatalog "1" -- "0...*" Piece : creates
+
+Window "1" *-- "1" DrawableBoard : has
+DrawableBoard "1" -- "1" Board : draws >
+Score "1" -- "1" Rules : draws score >
+
+@enduml

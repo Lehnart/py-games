@@ -1,0 +1,54 @@
+@startuml
+
+note as N1
+- A Tetris game has a board.
+- A board is a grid where each case may contains a block.
+- A board has always one active piece.
+- A piece is an aggregation of block in a given shape.
+- An active piece means it is affected by events : rotate, move lateraly, drop
+- An active piece cannot have any block outside of the board.
+- Once the active piece should go through the bottom of the board or another block,
+the active piece is no more active and become part of the board blocks.
+A new active piece is generated.
+- If no active piece can be generated because there is no place on the board,
+it is a game over.
+- When a line is complete, the line disappear and all above lines drop from one row.
+end note
+
+class Tetris{
+start()
+}
+
+class Rules{
+}
+
+class Board{
+    width
+    height
+}
+
+class Block{
+}
+
+class ActivePiece{
+    rotate()
+    move(direction)
+    drop()
+    drop_immediately()
+    deactivate()
+}
+
+class Piece{
+    shape
+}
+
+Tetris "1" *-- "1" Board : has
+Tetris "1" *-- "1" Rules : has
+Board "0...1" *-- "1" Block : contains [x,y]
+Rules "1" *-- "1" ActivePiece : controls >
+Rules "1" *-- "1" Board : controls >
+
+Piece "0...1" o-- "1..." Block : is made of [x,y]
+Piece <|-- ActivePiece
+
+@enduml

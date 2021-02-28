@@ -1,0 +1,112 @@
+@startuml
+package snake {
+    class SnakeGame{
+    - board : Board
+    - rules : Rules
+    + game_over()
+    + is_over()
+    + get_controller()
+    + get_board()
+    + update()
+    }
+}
+
+package snake.tools {
+    class Timer{
+        + Timer(period, function)
+    }
+
+    enum Direction{
+    LEFT
+    DOWN
+    RIGHT
+    UP
+    }
+}
+
+package snake.logic {
+    class Rules{
+    - board : Board
+    - snake : Snake
+    - updateTimer : Timer
+    + Rules(board : Board)
+    + move( direction )
+    + update()
+    }
+
+    class Snake{
+    - direction : direction
+    + get_next_head_position() : (int,int)
+    + move()
+    + grow()
+    + set_direction(direction)
+    }
+
+    class Board{
+    - width : int
+    - height : int
+    + Board(width: int, height, int)
+    + put_block(x,y,block)
+    + remove_block(x,y)
+    + get_block(x,y)
+    + get_empty_block_positions()
+    }
+
+    class Block{
+        type : [APPLE,SNAKE,WALL]
+        get_type()
+    }
+
+}
+
+package snake.grahics {
+    class Window{
+    + Window(Snake)
+    + draw()
+    }
+
+    class DrawableBoard {
+    + DrawableBoard()
+    + draw( board )
+    }
+
+}
+
+package snake.controller{
+    class Controller{
+    + Controller(snake, rules)
+    + move( direction )
+    }
+}
+
+package snake.ia{
+    class IA{
+    }
+}
+
+SnakeGame -- Direction : use >
+Rules -- Direction : use >
+Rules "1" *-- "1" Timer : use >
+
+SnakeGame "1" *-- "1" Board : has
+SnakeGame "1" *-- "1" Rules : has
+SnakeGame "1" *-- "1" Window : has
+SnakeGame "1" *-- "1" Controller : has
+
+Controller "1" -- "1" Rules : acts on >
+
+Board "0...1" *-- "1" Block : contains [x,y]
+Rules "1" *-- "1" Board : controls >
+Rules "1" *-- "1" Snake : controls >
+Rules  *--  Block : creates >
+
+Window "1" *-- "1" DrawableBoard : has
+DrawableBoard "1" -- "1" Board : draws >
+
+Snake "1" -- "1" Board : modifies >
+Snake -- Direction : has
+Snake -- Block : creates
+
+IA -- "1" Board : interprets
+IA -- "1" Controller : acts
+@enduml

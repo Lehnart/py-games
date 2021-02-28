@@ -1,0 +1,21 @@
+@startuml
+participant rules order 20
+participant clock order 25
+
+create clock
+rules --> clock : init()
+clock --> rules
+
+
+... drop time ...
+
+clock --> tetris : move(down)
+
+activate rules
+
+ref over tetris, rules
+    move_sequence_diagram
+end
+
+
+@enduml

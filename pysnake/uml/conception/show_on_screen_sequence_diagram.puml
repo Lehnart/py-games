@@ -1,0 +1,18 @@
+@startuml
+participant snakeGame order 10
+participant rules order 20
+participant window order 30
+participant drawable_board order 40
+
+alt [ move ]
+    ref over rules,snakeGame
+        update_sequence_diagram
+    end
+
+    snakeGame -> window : draw(board)
+    window -> drawable_board : draw(board)
+    drawable_board -> window
+
+    window -> snakeGame
+
+@enduml

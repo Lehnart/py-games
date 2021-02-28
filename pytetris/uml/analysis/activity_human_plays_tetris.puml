@@ -1,0 +1,20 @@
+@startuml
+(*)  --> "start game"
+partition Loop {
+  --> "check game over"
+  If "game is not over" then
+  --> "Process one event"
+
+  note left
+    One event can be
+    - input from the player
+    - time event like fall of a piece
+  end note
+
+  --> "Draw game on screen"
+  --> "check game over"
+  else
+  --> (*)
+  EndIf
+}
+@enduml

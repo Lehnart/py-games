@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+actor Player <<Human>>
+actor Screen <<System>>
+rectangle tetris {
+  Player -- (plays)
+}
+(plays) -- Screen
+
+note top of (plays)
+  - Jouer au tetris
+    *Le joueur lance la partie.
+    *La partie suit les règles du tetris.
+    *Le joueur peut déplacer la pièce active latéralement.
+    *Le joueur peut faire tomber plus rapidement la pièce.
+    *Le joueur peut faire tomber la pièce d'un coup.
+    *Le joueur peut faire tourner la pièce.
+    *Le joueur peut mettre la partie en pause.
+    *La partie se poursuit jusqu'au game over.
+    *L'état du jeu est constamment visible à l'écran
+end note
+
+@enduml
+

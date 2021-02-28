@@ -1,0 +1,17 @@
+@startuml
+actor Player
+actor Screen order 30
+
+Player -> SnakeGame: start_game()
+
+Player -> SnakeGame : set_direction(Direction)
+
+... time pass til update ...
+
+SnakeGame -> SnakeGame: move(Direction)
+
+loop until game over
+    SnakeGame -> Screen : show()
+end
+
+@enduml

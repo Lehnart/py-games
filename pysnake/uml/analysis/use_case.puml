@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+actor Player <<Human>>
+
+actor "IA Developper" <<Human>> as iadev
+actor "IA" <<System>>
+actor Screen <<System>>
+
+actor Screen <<System>>
+rectangle snake {
+  Player -- (plays)
+  iadev -- (trains)
+  IA -- (trains)
+}
+
+(trains) -- Screen
+(plays) -- Screen
+
+note bottom of (plays)
+  - Jouer à snake
+    *Le joueur lance la partie.
+    *La partie suit les règles du snake.
+    *Le serpent avance à chaque tour dans une direction donnée.
+    *Le joueur peut choisir la prochaine direction.
+    *Si pas de direction, le serpent avance droit devant lui.
+    *Si le serpent rencontre une pomme, il grandit.
+    *Si le serpent rencontre un mur ou un élément de son corps, c'est le game over.
+    *La partie se poursuit jusqu'au game over.
+    *L'état du jeu est constamment visible à l'écran
+end note
+
+note top of (trains)
+  - Entrainer une ia à jouer à snake
+    *Le developpeur ia lance l'application.
+    *Il choisit quelle ia va jouer
+    *La partie suit les règles du snake.
+    *A chaque game over, si l'ia est évolutive, elle évolue puis une nouvelle partie est lancée.
+    *L'itération est affiché à l'écran.
+    *L'état du jeu est constamment visible à l'écran
+end note
+
+@enduml
+

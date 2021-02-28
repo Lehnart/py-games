@@ -1,0 +1,40 @@
+@startuml
+actor IA
+
+participant snakeGame order 10
+participant rules order 20
+participant board order 40
+participant snake order 30
+participant window order 50
+
+rules -> snakeGame : update()
+snakeGame -> rules : update()
+
+rules -> snake : get_next_head_position()
+snake -> rules : next_head_position
+
+rules -> board : get_block( next_head_position )
+alt [ empty block ]
+    rules -> snake : move()
+    snake -> board : remove_block( tail_position )
+    board -> snake
+    snake -> board : put_block( next_head_position )
+    board -> snake
+    snake -> rules
+    else [ apple block ]
+    rules -> snake : grow()
+    snake -> board : put_block( next_head_position )
+    board -> snake
+    snake -> rules
+    rules -> board : get_empty_blocks()
+    board -> rules : positions
+    rules -> rules : _put_apple()
+
+    else [ snake block or wall block ]
+    rules -> snakeGame : game_over()
+end alt
+
+snakeGame -> window : draw(board)
+
+
+@enduml

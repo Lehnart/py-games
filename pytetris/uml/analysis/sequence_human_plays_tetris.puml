@@ -1,0 +1,44 @@
+@startuml
+actor Player
+actor Screen order 30
+
+Player -> Tetris: start_game()
+Tetris -> Screen: show()
+
+alt move lateraly
+        Player -> Tetris: move_lateraly()
+        activate Tetris
+        Tetris -> Tetris: add_in_queue()
+        deactivate Tetris
+    else rotate
+        Player -> Tetris: rotate()
+        activate Tetris
+        Tetris -> Tetris: add_in_queue()
+        deactivate Tetris
+    else drop
+        Player -> Tetris: drop()
+        activate Tetris
+        Tetris -> Tetris: add_in_queue()
+        deactivate Tetris
+    else drop immediately
+        Player -> Tetris: drop_immediately()
+        activate Tetris
+        Tetris -> Tetris: add_in_queue()
+        deactivate Tetris
+    else timer drop
+        Tetris -> Tetris: drop()
+        activate Tetris
+        Tetris -> Tetris: add_in_queue()
+        deactivate Tetris
+end
+loop until game over
+    Tetris -> Tetris : check_game_over()
+
+    Tetris -> Tetris : process_one_event()
+
+    Tetris -> Screen : show()
+
+
+end
+
+@enduml

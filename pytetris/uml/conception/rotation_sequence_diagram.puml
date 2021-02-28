@@ -1,0 +1,45 @@
+@startuml
+actor Player
+participant tetris order 10
+participant rules order 20
+participant board order 30
+participant piece order 40
+
+
+Player -> tetris : rotate(rotation)
+activate tetris
+
+tetris -> rules : rotate(rotation)
+rules -> piece : get_element_positions()
+piece -> rules : positions
+loop [ block in piece ]
+    rules -> board : remove_block(x, y)
+    board -> rules :
+end
+
+rules -> piece : rotate(rotation)
+piece -> rules
+
+loop [ block in piece ]
+    rules -> board : is_put_valid(next_x, next_y)
+    board -> rules :
+end
+alt [ can move ]
+    loop [ block in piece ]
+        rules -> board : put_block(next_x, next_y)
+        board -> rules :
+    end
+else [ can not move ]
+    loop [ block in piece ]
+        rules -> board : put_block(x, y)
+        board -> rules :
+    end
+    rules -> piece : rotate(-rotation)
+    piece -> rules
+end
+
+rules -> tetris :
+
+deactivate tetris
+
+@enduml

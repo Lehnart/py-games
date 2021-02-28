@@ -1,0 +1,27 @@
+@startuml
+participant player order 0
+participant tetris order 10
+participant rules order 20
+participant window order 30
+participant drawable_board order 40
+
+
+alt [ move ]
+
+    player -> controller : event press key
+    controller -> tetris : move(dir)
+    ref over rules,tetris
+        move_sequence_diagram
+    end
+
+else [ rotate ]
+
+    player -> controller : event press key
+    controller -> tetris : move(dir)
+
+    ref over rules,tetris
+        rotate_sequence_diagram
+    end
+
+end
+@enduml

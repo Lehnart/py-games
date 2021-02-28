@@ -1,0 +1,60 @@
+@startuml
+actor Player
+participant tetris order 10
+participant rules order 50
+participant board order 20
+participant pieceCatalog order 60
+participant piece order 70
+participant controller order 80
+participant window order 30
+participant drawable_board order 40
+
+
+Player -> tetris : Tetris()
+activate tetris
+
+create board
+tetris -> board : Board()
+board -> tetris : board
+
+create window
+tetris -> window : Window(tetris)
+
+create drawable_board
+window -> drawable_board : DrawableBoard()
+window <- drawable_board
+
+create rules
+tetris -> rules : Rules( board )
+
+create pieceCatalog
+rules -> pieceCatalog : PieceCatalog()
+rules <- pieceCatalog : pieceCatalog
+
+rules -> pieceCatalog : get_random_piece()
+create piece
+pieceCatalog -> piece : Piece()
+pieceCatalog <- piece
+rules <- pieceCatalog : piece
+
+rules -> piece : get_element_positions()
+piece -> rules : positions
+loop [ block in piece ]
+    rules -> board : is_put_valid(x, y)
+    board -> rules :
+end
+
+loop [ block in piece ]
+    rules -> board : put_block(x, y)
+    board -> rules :
+end
+
+rules -> tetris
+
+create controller
+tetris -> controller : Controller(tetris)
+loop
+    controller -> controller : wait for events
+end
+
+@enduml

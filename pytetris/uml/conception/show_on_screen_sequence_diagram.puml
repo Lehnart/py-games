@@ -1,0 +1,35 @@
+@startuml
+participant tetris order 10
+participant rules order 20
+participant window order 30
+participant drawable_board order 40
+participant score order 50
+
+alt [ move ]
+    ref over rules,tetris
+        move_sequence_diagram
+    end
+
+    tetris -> window : draw(board)
+    window -> drawable_board : draw(board)
+    drawable_board -> window
+    window -> score : draw(score)
+    score -> window :
+
+    window -> tetris
+
+else [ rotate ]
+
+    ref over rules,tetris
+        rotate_sequence_diagram
+    end
+
+    tetris -> window : draw(board)
+    window -> drawable_board : draw(board)
+    drawable_board -> window
+    window -> score : draw(score)
+    score -> window :
+    window -> tetris
+
+end
+@enduml

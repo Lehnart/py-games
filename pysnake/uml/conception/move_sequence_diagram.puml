@@ -1,0 +1,15 @@
+@startuml
+actor Player
+participant controller order 10
+participant rules order 20
+participant snake order 40
+
+
+Player -> controller : move(direction)
+controller -> rules : move(direction)
+
+rules -> snake : set_direction(direction)
+snake -> rules :
+rules -> snakeGame
+
+@enduml

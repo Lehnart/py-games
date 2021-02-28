@@ -1,0 +1,20 @@
+@startuml
+
+package "Présentation" {
+    [Screen representation] as sr
+    [Keyboard Input] as ki
+}
+
+package "Applicatif" {
+    [Control] as c
+    [ViewModel] as vm
+}
+
+package "LogiqueMétier"{
+    [Tetris] as t
+}
+t <- c
+ki -> c
+vm <- t
+sr <- vm
+@enduml
