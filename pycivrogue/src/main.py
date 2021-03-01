@@ -1,6 +1,7 @@
 import random
 import sys
 from enum import Enum
+from typing import List
 
 import pygame
 
@@ -93,19 +94,19 @@ class Chest:
 
 
 class Gnome:
-    MAX_DISTANCE = 50
+    MAX_VIEW_DISTANCE = 50
 
     def __init__(self, position: Point, chest: Chest):
         self.chest: Chest = chest
         self.p: Point = position
         self.food_count = 0
 
-    def update(self, gameMap: Map):
+    def update(self, gameMap: Map, gnomes: List):
         b = None
         if self.food_count == 0:
             b = self._find_bush(gameMap)
 
-            if b is None :
+            if b is None:
                 return
 
             if b.p != self.p:
@@ -134,19 +135,19 @@ class Gnome:
             self.p.y += dy // abs(dy)
 
     def _find_bush(self, gameMap: Map):
-        for d in range(0, Gnome.MAX_DISTANCE + 1):
+        for d in range(0, Gnome.MAX_VIEW_DISTANCE + 1):
             x0 = self.p.x
             y0 = self.p.y
 
             points = []
-            for dx in range(-d,d+1):
-                dy = d-(abs(dx))
-                points.append((x0+dx,y0+dy))
-                if dy!= 0 : points.append((x0+dx,y0-dy))
+            for dx in range(-d, d + 1):
+                dy = d - (abs(dx))
+                points.append((x0 + dx, y0 + dy))
+                if dy != 0: points.append((x0 + dx, y0 - dy))
 
             random.shuffle(points)
             for p in points:
-                x,y = p
+                x, y = p
                 b = gameMap.grid[x][y]
                 if b.type == BlockType.BUSH:
                     return b
@@ -160,6 +161,16 @@ class Gnome:
         rect.y = self.p.y * BLOCK_SIZE[1]
         surf.blit(GNOME_SPRITE, rect)
 
+class Region:
+
+    SIZE = 20
+
+    def __init__(self, p : Point):
+        self.p : Point = p
+
+    def draw(self, surf:pygame.Surface):
+        rect = pygame.Rect(self.p.x, self.p.y,Region.SIZE*BLOCK_SIZE[0], Region.SIZE*BLOCK_SIZE[1])
+        pygame.draw.rect(surf, pygame.Color(0,0,0), rect, 1)
 
 class Civilization:
 
@@ -189,12 +200,11 @@ chest = Chest(Point(MAP_SIZE[0] // 2 + 1, MAP_SIZE[1] // 2))
 civ = Civilization(chest)
 gameMap.block(chest.position).type = BlockType.GRASS
 gnomes = [Gnome(Point(MAP_SIZE[0] // 2, MAP_SIZE[1] // 2), chest)]
-
+regions = [Region(Point(x*Region.SIZE*BLOCK_SIZE[0],y*Region.SIZE*BLOCK_SIZE[1])) for x in range(MAP_SIZE[0]//Region.SIZE) for y in range(MAP_SIZE[1]//Region.SIZE)]
 clock = pygame.time.Clock()
 while True:
     dt = clock.tick()
 
-    bs = []
     events = []
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -202,7 +212,7 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                bs = [gnome.update(gameMap) for gnome in gnomes]
+                [gnome.update(gameMap, gnomes) for gnome in gnomes]
                 g = civ.update()
                 if g is not None:
                     gnomes.append(g)
@@ -210,10 +220,9 @@ while True:
 
     window_surface.fill((0, 0, 0,))
     gameMap.draw(window_surface)
+    [region.draw(window_surface) for region in regions]
+
     chest.draw(window_surface)
     [gnome.draw(window_surface) for gnome in gnomes]
-    for b in bs:
-        if b is not None:
-            pygame.draw.rect(window_surface, pygame.Color(255, 0, 0), b.rect(), 2)
 
     pygame.display.flip()
