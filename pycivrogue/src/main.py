@@ -161,16 +161,6 @@ class Gnome:
         rect.y = self.p.y * BLOCK_SIZE[1]
         surf.blit(GNOME_SPRITE, rect)
 
-class Region:
-
-    SIZE = 20
-
-    def __init__(self, p : Point):
-        self.p : Point = p
-
-    def draw(self, surf:pygame.Surface):
-        rect = pygame.Rect(self.p.x, self.p.y,Region.SIZE*BLOCK_SIZE[0], Region.SIZE*BLOCK_SIZE[1])
-        pygame.draw.rect(surf, pygame.Color(0,0,0), rect, 1)
 
 class Civilization:
 
@@ -187,6 +177,52 @@ class Civilization:
             return Gnome(Point(self.chest.position.x, self.chest.position.y), self.chest)
 
 
+class City:
+
+    def __init__(self, p: Point, civ: Civilization, color: pygame.Color):
+        self.p: Point = p
+        self.civ = civ
+        self.color = color
+
+
+class Region:
+    SIZE = 20
+
+    def __init__(self, p: Point):
+        self.p: Point = p
+        self.owner = None
+        self.color = pygame.Color(0, 0, 0)
+
+    def draw(self, surf: pygame.Surface):
+        rect = pygame.Rect(
+            self.p.x * BLOCK_SIZE[0],
+            self.p.y * BLOCK_SIZE[1],
+            Region.SIZE * BLOCK_SIZE[0],
+            Region.SIZE * BLOCK_SIZE[1]
+        )
+        pygame.draw.rect(surf, self.color, rect, 1)
+
+    def set_owner(self, city: City):
+        self.owner = city
+        self.color = city.color
+
+class Regions:
+    def __init__(self):
+        self.region_grid = []
+        for x in range(MAP_SIZE[0] // Region.SIZE):
+            self.region_grid.append([])
+            for y in range(MAP_SIZE[1] // Region.SIZE):
+                self.region_grid[-1].append(Region(Point(x * Region.SIZE, y * Region.SIZE)))
+
+    def draw(self, surf:pygame.Surface):
+        for x in range(len(self.region_grid)):
+            for y in range(len(self.region_grid[x])):
+                self.region_grid[x][y].draw(surf)
+
+    def set_owner(self, x:int, y:int, owner:City):
+        self.region_grid[x][y].set_owner(owner)
+
+
 pygame.init()
 window_surface = pygame.display.set_mode(WINDOW_SIZE)
 
@@ -198,9 +234,17 @@ is_game_over = False
 gameMap = Map()
 chest = Chest(Point(MAP_SIZE[0] // 2 + 1, MAP_SIZE[1] // 2))
 civ = Civilization(chest)
+city = City(Point(49, 49), civ, pygame.Color(0, 0, 255))
+regions = Regions()
+regions.set_owner(2,2,city)
+regions.set_owner(1,2,city)
+regions.set_owner(2,1,city)
+regions.set_owner(3,2,city)
+regions.set_owner(2,3,city)
+
 gameMap.block(chest.position).type = BlockType.GRASS
 gnomes = [Gnome(Point(MAP_SIZE[0] // 2, MAP_SIZE[1] // 2), chest)]
-regions = [Region(Point(x*Region.SIZE*BLOCK_SIZE[0],y*Region.SIZE*BLOCK_SIZE[1])) for x in range(MAP_SIZE[0]//Region.SIZE) for y in range(MAP_SIZE[1]//Region.SIZE)]
+
 clock = pygame.time.Clock()
 while True:
     dt = clock.tick()
@@ -220,7 +264,7 @@ while True:
 
     window_surface.fill((0, 0, 0,))
     gameMap.draw(window_surface)
-    [region.draw(window_surface) for region in regions]
+    regions.draw(window_surface)
 
     chest.draw(window_surface)
     [gnome.draw(window_surface) for gnome in gnomes]

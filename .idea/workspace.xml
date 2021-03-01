@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/py-games.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/py-games.iml" afterDir="false" />
+    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Add a region class to represent region of the map">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pycivrogue/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycivrogue/src/main.py" afterDir="false" />
     </list>
@@ -87,7 +85,30 @@
       <option name="presentableId" value="Default" />
       <updated>1614516682449</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add a region class to represent region of the map">
+      <created>1614631854132</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1614631854132</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add a region class to represent region of the map" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add a region class to represent region of the map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
