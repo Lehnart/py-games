@@ -101,7 +101,7 @@ class Gnome:
         self.p: Point = position
         self.food_count = 0
 
-    def update(self, gameMap: Map, gnomes: List):
+    def update(self, gameMap: Map):
         b = None
         if self.food_count == 0:
             b = self._find_bush(gameMap)
@@ -121,7 +121,7 @@ class Gnome:
                 self._move(b)
             else:
                 self.food_count -= 1
-                chest.food_count += 1
+                self.chest.food_count += 1
 
         return b
 
@@ -162,28 +162,40 @@ class Gnome:
         surf.blit(GNOME_SPRITE, rect)
 
 
-class Civilization:
-
-    def __init__(self, chest: Chest):
-        self.chest: Chest = chest
-        self.food_threshold = FOOD_THRESHOLD
-
-    def update(self):
-        print(self.chest.food_count)
-        if self.food_threshold <= self.chest.food_count:
-            self.chest.food_count -= self.food_threshold
-            self.food_threshold *= FOOD_MULTIPLICATOR
-
-            return Gnome(Point(self.chest.position.x, self.chest.position.y), self.chest)
-
-
 class City:
 
-    def __init__(self, p: Point, civ: Civilization, color: pygame.Color):
+    def __init__(self, p: Point, color: pygame.Color):
         self.p: Point = p
-        self.civ = civ
         self.color = color
+        self.food_threshold = FOOD_THRESHOLD
+        self.food_count = 0
+        self.regions: List[Region] = []
 
+    def update(self, gameMap: Map):
+        self.food_count = sum(r.chest.food_count for r in self.regions)
+        if self.food_threshold <= self.food_count:
+            for r in self.regions:
+                r.chest.food_count = 0
+            self.food_threshold *= FOOD_MULTIPLICATOR
+            self.add_gnome()
+
+        for region in self.regions:
+            for gnome in region.gnomes:
+                gnome.update(gameMap)
+
+    def draw(self, surf: pygame.Surface):
+        for region in self.regions:
+            region.chest.draw(surf)
+
+            for gnome in region.gnomes:
+                gnome.draw(surf)
+
+    def add_gnome(self):
+        random.choice(self.regions).add_gnome()
+
+    def add_region(self, region):
+        region.set_owner(self)
+        self.regions.append(region)
 
 class Region:
     SIZE = 20
@@ -191,6 +203,8 @@ class Region:
     def __init__(self, p: Point):
         self.p: Point = p
         self.owner = None
+        self.chest = Chest(Point(self.p.x + Region.SIZE // 2, self.p.y + Region.SIZE // 2))
+        self.gnomes: List[Gnome] = []
         self.color = pygame.Color(0, 0, 0)
 
     def draw(self, surf: pygame.Surface):
@@ -202,9 +216,15 @@ class Region:
         )
         pygame.draw.rect(surf, self.color, rect, 1)
 
+    def add_gnome(self):
+        p = Point(self.p.x + Region.SIZE // 2, self.p.y + Region.SIZE // 2)
+        g = Gnome(p, self.chest)
+        self.gnomes.append(g)
+
     def set_owner(self, city: City):
         self.owner = city
         self.color = city.color
+
 
 class Regions:
     def __init__(self):
@@ -214,12 +234,15 @@ class Regions:
             for y in range(MAP_SIZE[1] // Region.SIZE):
                 self.region_grid[-1].append(Region(Point(x * Region.SIZE, y * Region.SIZE)))
 
-    def draw(self, surf:pygame.Surface):
+    def draw(self, surf: pygame.Surface):
         for x in range(len(self.region_grid)):
             for y in range(len(self.region_grid[x])):
                 self.region_grid[x][y].draw(surf)
 
-    def set_owner(self, x:int, y:int, owner:City):
+    def get(self, x: int, y: int):
+        return self.region_grid[x][y]
+
+    def set_owner(self, x: int, y: int, owner: City):
         self.region_grid[x][y].set_owner(owner)
 
 
@@ -232,18 +255,14 @@ draw_time_delay = 0
 is_game_over = False
 
 gameMap = Map()
-chest = Chest(Point(MAP_SIZE[0] // 2 + 1, MAP_SIZE[1] // 2))
-civ = Civilization(chest)
-city = City(Point(49, 49), civ, pygame.Color(0, 0, 255))
+city = City(Point(49, 49), pygame.Color(0, 0, 255))
 regions = Regions()
-regions.set_owner(2,2,city)
-regions.set_owner(1,2,city)
-regions.set_owner(2,1,city)
-regions.set_owner(3,2,city)
-regions.set_owner(2,3,city)
-
-gameMap.block(chest.position).type = BlockType.GRASS
-gnomes = [Gnome(Point(MAP_SIZE[0] // 2, MAP_SIZE[1] // 2), chest)]
+city.add_region(regions.get(2,2))
+city.add_region(regions.get(1,2))
+city.add_region(regions.get(2,1))
+city.add_region(regions.get(3,2))
+city.add_region(regions.get(2,3))
+city.add_gnome()
 
 clock = pygame.time.Clock()
 while True:
@@ -256,17 +275,13 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                [gnome.update(gameMap, gnomes) for gnome in gnomes]
-                g = civ.update()
-                if g is not None:
-                    gnomes.append(g)
+                city.update(gameMap)
         events.append(event)
 
     window_surface.fill((0, 0, 0,))
     gameMap.draw(window_surface)
     regions.draw(window_surface)
+    city.draw(window_surface)
 
-    chest.draw(window_surface)
-    [gnome.draw(window_surface) for gnome in gnomes]
 
     pygame.display.flip()

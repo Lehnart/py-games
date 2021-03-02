@@ -43,14 +43,14 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.CivRogue">
-    <configuration name="CivRogue" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="CivRogue" type="PythonConfigurationType" factoryName="Python">
       <module name="py-games" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\thoma\AppData\Local\Programs\Python\Python37\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Setoh\AppData\Local\Programs\Python\Python37\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pycivrogue" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -66,15 +66,10 @@
     </configuration>
     <list>
       <item itemvalue="Python.Snake" />
-      <item itemvalue="Python.Tetris" />
       <item itemvalue="Python.SpaceInvaders" />
+      <item itemvalue="Python.Tetris" />
       <item itemvalue="Python.CivRogue" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.CivRogue" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -105,6 +100,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add a region class to represent region of the map" />
