@@ -84,6 +84,7 @@ class Chest:
     def __init__(self, position: Point):
         self.position = position
         self.food_count = 0
+        self.prod_count = 0
 
     def draw(self, surf: pygame.Surface):
         sprite = GNOME_SPRITE
@@ -93,18 +94,40 @@ class Chest:
         surf.blit(CHEST_SPRITE, rect)
 
 
+class Goal(Enum):
+    FOOD = 0,
+    PROD = 1
+
+
 class Gnome:
     MAX_VIEW_DISTANCE = 50
+    UPDATE_GOAL = 100
 
     def __init__(self, position: Point, chest: Chest):
         self.chest: Chest = chest
         self.p: Point = position
         self.food_count = 0
+        self.prod_count = 0
+        self.goal = random.choice(list(Goal) )
+        self.update_count = 0
 
     def update(self, gameMap: Map):
         b = None
+        if self.goal == Goal.FOOD:
+            self._goal_food(gameMap)
+        elif self.goal == Goal.PROD:
+            self._goal_prod(gameMap)
+
+        self.update_count += 1
+        if self.update_count >= Gnome.UPDATE_GOAL:
+            self.goal = random.choice(list(Goal))
+            self.update_count = 0
+
+        return b
+
+    def _goal_food(self, gameMap):
         if self.food_count == 0:
-            b = self._find_bush(gameMap)
+            b = self._find_block(gameMap, BlockType.BUSH)
 
             if b is None:
                 return
@@ -122,7 +145,28 @@ class Gnome:
             else:
                 self.food_count -= 1
                 self.chest.food_count += 1
+        return b
 
+    def _goal_prod(self, gameMap):
+        if self.prod_count == 0:
+            b = self._find_block(gameMap, BlockType.TREE)
+
+            if b is None:
+                return
+
+            if b.p != self.p:
+                self._move(b)
+            else:
+                self.prod_count += 1
+                b.type = BlockType.GRASS
+
+        else:
+            b = gameMap.block(self.chest.position)
+            if b.p != self.p:
+                self._move(b)
+            else:
+                self.prod_count -= 1
+                self.chest.prod_count += 1
         return b
 
     def _move(self, b: Block):
@@ -134,7 +178,7 @@ class Gnome:
         else:
             self.p.y += dy // abs(dy)
 
-    def _find_bush(self, gameMap: Map):
+    def _find_block(self, gameMap: Map, blockType: BlockType):
         for d in range(0, Gnome.MAX_VIEW_DISTANCE + 1):
             x0 = self.p.x
             y0 = self.p.y
@@ -149,7 +193,7 @@ class Gnome:
             for p in points:
                 x, y = p
                 b = gameMap.grid[x][y]
-                if b.type == BlockType.BUSH:
+                if b.type == blockType:
                     return b
 
         return None
@@ -181,7 +225,7 @@ class City:
 
         for region in self.regions:
             for gnome in region.gnomes:
-                gnome.update(gameMap)
+                gnome.update  (gameMap)
 
     def draw(self, surf: pygame.Surface):
         for region in self.regions:
@@ -196,6 +240,7 @@ class City:
     def add_region(self, region):
         region.set_owner(self)
         self.regions.append(region)
+
 
 class Region:
     SIZE = 20
@@ -257,11 +302,11 @@ is_game_over = False
 gameMap = Map()
 city = City(Point(49, 49), pygame.Color(0, 0, 255))
 regions = Regions()
-city.add_region(regions.get(2,2))
-city.add_region(regions.get(1,2))
-city.add_region(regions.get(2,1))
-city.add_region(regions.get(3,2))
-city.add_region(regions.get(2,3))
+city.add_region(regions.get(2, 2))
+city.add_region(regions.get(1, 2))
+city.add_region(regions.get(2, 1))
+city.add_region(regions.get(3, 2))
+city.add_region(regions.get(2, 3))
 city.add_gnome()
 
 clock = pygame.time.Clock()
@@ -282,6 +327,5 @@ while True:
     gameMap.draw(window_surface)
     regions.draw(window_surface)
     city.draw(window_surface)
-
 
     pygame.display.flip()
