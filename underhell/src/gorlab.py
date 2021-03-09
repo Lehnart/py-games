@@ -2,15 +2,15 @@ import pygame
 
 from underhell.src.block import BLOCK_SIZE
 
-HERO_SPRITE = pygame.transform.scale2x(pygame.image.load("res/hero.bmp"))
+GORLAB_SPRITE = pygame.transform.scale2x(pygame.image.load("res/gorlab.bmp"))
 
-class Hero:
+class Gorlab:
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
     def draw(self, surf: pygame.Surface):
-        rect = HERO_SPRITE.get_rect()
+        rect = GORLAB_SPRITE.get_rect()
         rect.x = self.x * BLOCK_SIZE
         rect.y = self.y * BLOCK_SIZE
-        surf.blit(HERO_SPRITE, rect)
+        surf.blit(GORLAB_SPRITE, rect)

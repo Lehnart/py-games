@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+from underhell.src.gorlab import Gorlab
 from underhell.src.hero import Hero
 
 WINDOW_SIZE = (800, 800)
@@ -9,6 +10,7 @@ pygame.init()
 window_surface = pygame.display.set_mode(WINDOW_SIZE)
 
 hero = Hero(1,1)
+gorlab = Gorlab(20,20)
 
 is_game_over = False
 
@@ -31,4 +33,5 @@ while True:
 
     window_surface.fill((0, 0, 0,))
     hero.draw(window_surface)
+    gorlab.draw(window_surface)
     pygame.display.flip()

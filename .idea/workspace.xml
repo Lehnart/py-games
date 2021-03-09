@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Start underhell game by showing a window">
-      <change afterPath="$PROJECT_DIR$/underhell/res/hero.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/underhell/src/block.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/underhell/src/hero.py" afterDir="false" />
+    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Hero can move when pressing arrow">
+      <change afterPath="$PROJECT_DIR$/underhell/src/gorlab.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pycivrogue/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycivrogue/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/underhell/src/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/underhell/src/hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/hero.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,7 +119,21 @@
       <option name="project" value="LOCAL" />
       <updated>1615324217568</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="show a hero at a position">
+      <created>1615324594820</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1615324594820</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Hero can move when pressing arrow">
+      <created>1615324816349</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1615324816349</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,7 +153,9 @@
     <MESSAGE value="Each region can be owned by a city" />
     <MESSAGE value="Gnome can now scavenge trees for production" />
     <MESSAGE value="Start underhell game by showing a window" />
-    <option name="LAST_COMMIT_MESSAGE" value="Start underhell game by showing a window" />
+    <MESSAGE value="show a hero at a position" />
+    <MESSAGE value="Hero can move when pressing arrow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hero can move when pressing arrow" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
