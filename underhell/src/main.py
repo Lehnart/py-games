@@ -19,6 +19,15 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                hero.y += 1
+            if event.key == pygame.K_UP:
+                hero.y -= 1
+            if event.key == pygame.K_LEFT:
+                hero.x -= 1
+            if event.key == pygame.K_RIGHT:
+                hero.x += 1
 
     window_surface.fill((0, 0, 0,))
     hero.draw(window_surface)
