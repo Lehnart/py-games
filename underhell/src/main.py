@@ -15,7 +15,7 @@ gorlab = Gorlab(20,20)
 is_game_over = False
 
 clock = pygame.time.Clock()
-while True:
+while not is_game_over :
     dt = clock.tick()
 
     for event in pygame.event.get():
@@ -30,6 +30,12 @@ while True:
                 hero.x -= 1
             if event.key == pygame.K_RIGHT:
                 hero.x += 1
+
+    if hero.x == gorlab.x and hero.y == gorlab.y :
+        gorlab.is_dead = True
+
+    if gorlab.is_dead :
+        is_game_over = True
 
     window_surface.fill((0, 0, 0,))
     hero.draw(window_surface)

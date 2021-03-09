@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Hero can move when pressing arrow">
-      <change afterPath="$PROJECT_DIR$/underhell/src/gorlab.py" afterDir="false" />
+    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Show gorlab in 16x16">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/underhell/src/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/underhell/src/gorlab.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/gorlab.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/hero.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/main.py" afterDir="false" />
     </list>
@@ -133,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615324816349</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Show gorlab in 16x16">
+      <created>1615326104607</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1615326104607</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,7 +161,8 @@
     <MESSAGE value="Start underhell game by showing a window" />
     <MESSAGE value="show a hero at a position" />
     <MESSAGE value="Hero can move when pressing arrow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hero can move when pressing arrow" />
+    <MESSAGE value="Show gorlab in 16x16" />
+    <option name="LAST_COMMIT_MESSAGE" value="Show gorlab in 16x16" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

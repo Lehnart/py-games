@@ -8,6 +8,7 @@ class Gorlab:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.is_dead = False
 
     def draw(self, surf: pygame.Surface):
         rect = GORLAB_SPRITE.get_rect()
