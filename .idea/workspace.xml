@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/underhell/res/ground.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/underhell/res/wall.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/dungeon.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/dungeon.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/main.py" afterDir="false" />
@@ -107,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615560864529</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Choose a random place for hero and gorlab at start. Change sprite for wall and ground">
+      <created>1615590540906</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1615590540906</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,7 +131,8 @@
     <MESSAGE value="Add a region class to represent region of the map" />
     <MESSAGE value="Add hitpoints to hero and gorlab&#10;Gorlab loose points when hero attack&#10;When 0 hp, gorlab is dead" />
     <MESSAGE value="Generate a random dungeon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Generate a random dungeon" />
+    <MESSAGE value="Choose a random place for hero and gorlab at start. Change sprite for wall and ground" />
+    <option name="LAST_COMMIT_MESSAGE" value="Choose a random place for hero and gorlab at start. Change sprite for wall and ground" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

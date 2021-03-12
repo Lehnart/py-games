@@ -1,8 +1,9 @@
-import sys
 import random
+import sys
+
 import pygame
 
-from underhell.src.dungeon import Dungeon
+from underhell.src.dungeon import Dungeon, TileType
 from underhell.src.gorlab import Gorlab
 from underhell.src.hero import Hero
 from underhell.src.move import DOWN, RIGHT, LEFT, UP
@@ -14,9 +15,9 @@ window_surface = pygame.display.set_mode(WINDOW_SIZE)
 
 hero = Hero(0, 0)
 gorlab = Gorlab(0, 0)
-dungeon = Dungeon(100,100)
+dungeon = Dungeon(100, 100)
 
-while hero.x == gorlab.x and hero.y == gorlab.y :
+while hero.x == gorlab.x and hero.y == gorlab.y:
     rooms = dungeon.rooms
     r = random.choice(rooms)
     hero.x, hero.y = r.rand()
@@ -50,10 +51,11 @@ while not is_game_over:
             gorlab.hit_points -= 1
             hero.move = None
 
-        else:
+        elif dungeon.tiles[y][x].type == TileType.GROUND :
             hero.x = x
             hero.y = y
-            hero.move = None
+
+        hero.move = None
 
     if gorlab.is_dead():
         is_game_over = True

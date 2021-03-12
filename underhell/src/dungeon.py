@@ -8,8 +8,8 @@ from underhell.src import block
 
 ROOM_SIZE_MIN = 6
 ROOM_SIZE_MAX = 15
-ROOM_COUNT_MIN = 10
-ROOM_COUNT_MAX = 15
+ROOM_COUNT_MIN = 4
+ROOM_COUNT_MAX = 6
 
 GROUND_SPRITE = pygame.image.load("res/ground.bmp")
 WALL_SPRITE = pygame.image.load("res/wall.bmp")
