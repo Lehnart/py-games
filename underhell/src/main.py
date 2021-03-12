@@ -1,5 +1,5 @@
 import sys
-
+import random
 import pygame
 
 from underhell.src.dungeon import Dungeon
@@ -12,9 +12,17 @@ WINDOW_SIZE = (800, 800)
 pygame.init()
 window_surface = pygame.display.set_mode(WINDOW_SIZE)
 
-hero = Hero(1, 1)
-gorlab = Gorlab(20, 20)
+hero = Hero(0, 0)
+gorlab = Gorlab(0, 0)
 dungeon = Dungeon(100,100)
+
+while hero.x == gorlab.x and hero.y == gorlab.y :
+    rooms = dungeon.rooms
+    r = random.choice(rooms)
+    hero.x, hero.y = r.rand()
+
+    r = random.choice(rooms)
+    gorlab.x, gorlab.y = r.rand()
 
 is_game_over = False
 

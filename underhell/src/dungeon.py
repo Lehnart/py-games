@@ -11,10 +11,17 @@ ROOM_SIZE_MAX = 15
 ROOM_COUNT_MIN = 10
 ROOM_COUNT_MAX = 15
 
+GROUND_SPRITE = pygame.image.load("res/ground.bmp")
+WALL_SPRITE = pygame.image.load("res/wall.bmp")
+
 
 class TileType(Enum):
     VOID = 0,
-    GROUND = 1
+    GROUND = 1,
+    WALL = 2
+
+
+SPRITES = {TileType.VOID: None, TileType.GROUND: GROUND_SPRITE, TileType.WALL: WALL_SPRITE}
 
 
 class Tile:
@@ -23,13 +30,15 @@ class Tile:
         self.x = x
         self.y = y
         self.type = ttype
+        self.sprite = SPRITES[ttype]
 
     def _rect(self):
         s = block.SIZE
         return pygame.Rect(self.x * s, self.y * s, s, s)
 
     def draw(self, surf: pygame.Surface):
-        pygame.draw.rect(surf, pygame.Color("green"), self._rect())
+        if self.sprite is not None:
+            surf.blit(self.sprite, self._rect())
 
 
 class Room:
@@ -41,10 +50,10 @@ class Room:
         self.h = h
 
     def rand_x(self):
-        return random.randint(self.x0, self.x0 + self.w - 1)
+        return random.randint(self.x0 + 1, self.x0 + self.w - 2)
 
     def rand_y(self):
-        return random.randint(self.y0, self.y0 + self.h - 1)
+        return random.randint(self.y0 + 1, self.y0 + self.h - 2)
 
     def rand(self):
         return self.rand_x(), self.rand_y()
@@ -58,8 +67,8 @@ class Dungeon:
 
         self.tiles = [[Tile(x, y, TileType.VOID) for x in range(self.w)] for y in range(self.h)]
 
-        rooms = self._generate_rooms()
-        self._connect_rooms(rooms)
+        self.rooms = self._generate_rooms()
+        self._connect_rooms(self.rooms)
 
     def draw(self, surf: pygame.Surface):
         for y in range(self.h):
@@ -97,7 +106,15 @@ class Dungeon:
                 continue
 
             for x in range(x0, x0 + w):
-                for y in range(y0, y0 + h):
+                self.tiles[y0][x] = Tile(x, y0, TileType.WALL)
+                self.tiles[y0 + h - 1][x] = Tile(x, y0 + h - 1, TileType.WALL)
+
+            for y in range(y0, y0 + h):
+                self.tiles[y][x0] = Tile(x0, y, TileType.WALL)
+                self.tiles[y][x0 + w - 1] = Tile(x0 + w - 1, y, TileType.WALL)
+
+            for x in range(x0 + 1, x0 + w - 1):
+                for y in range(y0 + 1, y0 + h - 1):
                     self.tiles[y][x] = Tile(x, y, TileType.GROUND)
 
             return Room(x0, y0, w, h)
