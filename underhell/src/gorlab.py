@@ -1,17 +1,22 @@
 import pygame
 
-from underhell.src.block import BLOCK_SIZE
+from underhell.src.block import SIZE
 
-GORLAB_SPRITE = pygame.transform.scale2x(pygame.image.load("res/gorlab.bmp"))
+SPRITE = pygame.transform.scale2x(pygame.image.load("res/gorlab.bmp"))
+
+HIT_POINTS_MAX = 5
 
 class Gorlab:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.is_dead = False
+        self.hit_points = HIT_POINTS_MAX
 
     def draw(self, surf: pygame.Surface):
-        rect = GORLAB_SPRITE.get_rect()
-        rect.x = self.x * BLOCK_SIZE
-        rect.y = self.y * BLOCK_SIZE
-        surf.blit(GORLAB_SPRITE, rect)
+        rect = SPRITE.get_rect()
+        rect.x = self.x * SIZE
+        rect.y = self.y * SIZE
+        surf.blit(SPRITE, rect)
+
+    def is_dead(self):
+        return self.hit_points == 0

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Show gorlab in 16x16">
+    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Add a region class to represent region of the map">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/UnderHell.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/underhell/src/move.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/underhell/src/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/block.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/gorlab.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/gorlab.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/hero.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/main.py" afterDir="false" />
@@ -32,11 +35,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/underhell/res" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\thoma\Bureau\py-games\underhell\res" />
       <recent name="C:\Users\Setoh\Desktop\py-games" />
       <recent name="C:\Users\Setoh\Desktop\py-games\pyspaceinvaders" />
       <recent name="C:\Users\Setoh\Desktop\py-games\pytetris" />
@@ -47,19 +49,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.UnderHell">
-    <configuration name="UnderHell" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="CivRogue" type="PythonConfigurationType" factoryName="Python">
       <module name="py-games" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/underhell" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="SDK_HOME" value="C:\Users\Setoh\AppData\Local\Programs\Python\Python37\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pycivrogue" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/underhell/src/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pycivrogue/src/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -97,49 +99,7 @@
       <option name="project" value="LOCAL" />
       <updated>1614631854132</updated>
     </task>
-    <task id="LOCAL-00002" summary="Each region can be owned by a city">
-      <created>1614632890455</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1614632890455</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Gnome can now scavenge trees for production">
-      <created>1614980316663</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1614980316663</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Start underhell game by showing a window">
-      <created>1615324217567</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1615324217568</updated>
-    </task>
-    <task id="LOCAL-00005" summary="show a hero at a position">
-      <created>1615324594820</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1615324594820</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Hero can move when pressing arrow">
-      <created>1615324816349</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1615324816349</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Show gorlab in 16x16">
-      <created>1615326104607</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1615326104607</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -156,13 +116,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add a region class to represent region of the map" />
-    <MESSAGE value="Each region can be owned by a city" />
-    <MESSAGE value="Gnome can now scavenge trees for production" />
-    <MESSAGE value="Start underhell game by showing a window" />
-    <MESSAGE value="show a hero at a position" />
-    <MESSAGE value="Hero can move when pressing arrow" />
-    <MESSAGE value="Show gorlab in 16x16" />
-    <option name="LAST_COMMIT_MESSAGE" value="Show gorlab in 16x16" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add a region class to represent region of the map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

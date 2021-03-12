@@ -1,21 +1,23 @@
-import pygame
 import sys
+
+import pygame
 
 from underhell.src.gorlab import Gorlab
 from underhell.src.hero import Hero
+from underhell.src.move import DOWN, RIGHT, LEFT, UP
 
 WINDOW_SIZE = (800, 800)
 
 pygame.init()
 window_surface = pygame.display.set_mode(WINDOW_SIZE)
 
-hero = Hero(1,1)
-gorlab = Gorlab(20,20)
+hero = Hero(1, 1)
+gorlab = Gorlab(20, 20)
 
 is_game_over = False
 
 clock = pygame.time.Clock()
-while not is_game_over :
+while not is_game_over:
     dt = clock.tick()
 
     for event in pygame.event.get():
@@ -23,18 +25,27 @@ while not is_game_over :
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                hero.y += 1
+                hero.move = DOWN
             if event.key == pygame.K_UP:
-                hero.y -= 1
+                hero.move = UP
             if event.key == pygame.K_LEFT:
-                hero.x -= 1
+                hero.move = LEFT
             if event.key == pygame.K_RIGHT:
-                hero.x += 1
+                hero.move = RIGHT
 
-    if hero.x == gorlab.x and hero.y == gorlab.y :
-        gorlab.is_dead = True
+    if hero.move is not None:
+        x = hero.x + hero.move.dx
+        y = hero.y + hero.move.dy
+        if x == gorlab.x and y == gorlab.y:
+            gorlab.hit_points -= 1
+            hero.move = None
 
-    if gorlab.is_dead :
+        else:
+            hero.x = x
+            hero.y = y
+            hero.move = None
+
+    if gorlab.is_dead():
         is_game_over = True
 
     window_surface.fill((0, 0, 0,))

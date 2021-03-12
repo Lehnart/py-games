@@ -1,1 +1,1 @@
-BLOCK_SIZE = 16
+SIZE = 16
