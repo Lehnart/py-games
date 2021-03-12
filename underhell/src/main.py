@@ -2,6 +2,7 @@ import sys
 
 import pygame
 
+from underhell.src.dungeon import Dungeon
 from underhell.src.gorlab import Gorlab
 from underhell.src.hero import Hero
 from underhell.src.move import DOWN, RIGHT, LEFT, UP
@@ -13,6 +14,7 @@ window_surface = pygame.display.set_mode(WINDOW_SIZE)
 
 hero = Hero(1, 1)
 gorlab = Gorlab(20, 20)
+dungeon = Dungeon(100,100)
 
 is_game_over = False
 
@@ -49,6 +51,7 @@ while not is_game_over:
         is_game_over = True
 
     window_surface.fill((0, 0, 0,))
+    dungeon.draw(window_surface)
     hero.draw(window_surface)
     gorlab.draw(window_surface)
     pygame.display.flip()

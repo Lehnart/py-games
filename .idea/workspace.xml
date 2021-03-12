@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="Add a region class to represent region of the map">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/UnderHell.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/underhell/src/move.py" afterDir="false" />
+    <list default="true" id="e3b8d9e1-d15f-40b7-a289-b23b820c6bf7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/underhell/src/dungeon.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/underhell/src/sprite.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/block.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/underhell/src/gorlab.py" beforeDir="false" afterPath="$PROJECT_DIR$/underhell/src/gorlab.py" afterDir="false" />
@@ -99,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614631854132</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add hitpoints to hero and gorlab&#10;Gorlab loose points when hero attack&#10;When 0 hp, gorlab is dead">
+      <created>1615557264520</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1615557264520</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -116,7 +123,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add a region class to represent region of the map" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add a region class to represent region of the map" />
+    <MESSAGE value="Add hitpoints to hero and gorlab&#10;Gorlab loose points when hero attack&#10;When 0 hp, gorlab is dead" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add hitpoints to hero and gorlab&#10;Gorlab loose points when hero attack&#10;When 0 hp, gorlab is dead" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -128,6 +136,21 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pysnake/src/snake/snake_game.py</url>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/underhell/src/dungeon.py</url>
+          <line>100</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/underhell/src/dungeon.py</url>
+          <line>99</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/underhell/src/dungeon.py</url>
+          <line>98</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

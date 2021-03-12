@@ -1,1 +1,1 @@
-SIZE = 16
+SIZE = 8 # block size in pixel

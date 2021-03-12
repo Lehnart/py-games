@@ -1,0 +1,1 @@
+SIZE = 8 # all sprites are 8x8
