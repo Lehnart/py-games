@@ -1,5 +1,4 @@
 import datetime
-import time
 
 from functools import lru_cache
 from typing import Iterable, Tuple, Type, List, Optional
@@ -15,12 +14,12 @@ class MessageQueue:
         self._queue[key].append([message, 0])
 
     def tick(self, n_processors):
-        for key in self._queue.keys():
-            for message in self._queue[key]:
+        for key, value in self._queue:
+            for message in value:
                 message[1] += 1
 
-        for key in self._queue.keys():
-            self._queue[key] = [msg for msg in self._queue[key] if msg[1] < n_processors]
+        for key, value in self._queue:
+            self._queue[key] = [msg for msg in value if msg[1] < n_processors]
 
     def get(self, key: Type) -> List[object]:
         if key not in self._queue:
@@ -29,8 +28,6 @@ class MessageQueue:
 
 
 class Event:
-    def __init__(self):
-        pass
 
     def key(self) -> Type:
         return self.__class__
@@ -44,13 +41,13 @@ class Processor:
     priority = 0
     world: 'World' = None
 
-    def process(self, *args, **kwargs):
+    def process(self):
         raise NotImplementedError
 
 
 class World:
 
-    def __init__(self, timed=False):
+    def __init__(self):
         self.is_running = True
         self._processors = []
         self._next_entity_id = 0
@@ -61,10 +58,6 @@ class World:
 
         self._last_process_datetime = datetime.datetime.now()
         self.process_dt = 0
-
-        if timed:
-            self.process_times = {}
-            self._process = self._timed_process
 
     def publish(self, event: Event):
         self._message_queue.add(event.key(), event)
@@ -92,16 +85,15 @@ class World:
 
     def remove_processor(self, processor_type: Type[Processor]) -> None:
         for processor in self._processors:
-            if type(processor) == processor_type:
+            if isinstance(processor, processor_type):
                 processor.world = None
                 self._processors.remove(processor)
 
     def get_processor(self, processor_type: Type[Processor]) -> Optional[Processor]:
         for processor in self._processors:
-            if type(processor) == processor_type:
+            if isinstance(processor, processor_type):
                 return processor
-        else:
-            return None
+        return None
 
     def create_entity(self, *components: Component) -> int:
         self._next_entity_id += 1
@@ -187,23 +179,21 @@ class World:
 
     @lru_cache()
     def get_component(self, component_type: Type[Component]) -> List[Tuple[int, Component]]:
-        return [query for query in self._get_component(component_type)]
+        return list(query for query in self._get_component(component_type))
 
     @lru_cache()
     def get_components(self, *component_types: Type[Component]) -> List[Tuple[int, List[Component]]]:
-        return [query for query in self._get_components(*component_types)]
+        return list(query for query in self._get_components(*component_types))
 
     def try_component(self, entity: int, component_type: Type[Component]) -> Optional[Component]:
         if component_type in self._entities[entity]:
             return self._entities[entity][component_type]
-        else:
-            return None
+        return None
 
     def try_components(self, entity: int, *component_types: Type[Component]) -> Optional[List[List[Component]]]:
         if all(comp_type in self._entities[entity] for comp_type in component_types):
             return [self._entities[entity][comp_type] for comp_type in component_types]
-        else:
-            return None
+        return None
 
     def _clear_dead_entities(self):
         for entity in self._dead_entities:
@@ -219,25 +209,18 @@ class World:
         self._dead_entities.clear()
         self.clear_cache()
 
-    def _process(self, *args, **kwargs):
+    def _process(self):
 
         self.process_dt = (datetime.datetime.now() - self._last_process_datetime).total_seconds()
         self._last_process_datetime = datetime.datetime.now()
 
         for processor in self._processors:
             self._message_queue.tick(len(self._processors))
-            processor.process(*args, **kwargs)
+            processor.process()
 
-    def _timed_process(self, *args, **kwargs):
-        for processor in self._processors:
-            start_time = time.process_time()
-            processor.process(*args, **kwargs)
-            process_time = int(round((time.process_time() - start_time) * 1000, 2))
-            self.process_times[processor.__class__.__name__] = process_time
-
-    def process(self, *args, **kwargs):
+    def process(self):
         self._clear_dead_entities()
-        self._process(*args, **kwargs)
+        self._process()
 
     @classmethod
     def run(cls):

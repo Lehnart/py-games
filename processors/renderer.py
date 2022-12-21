@@ -19,10 +19,11 @@ class Renderer(Processor):
             return
         self.last_time_drawn = datetime.datetime.now()
 
-        for window_entity, [window_component] in self.world.get_components(Window):
+        for _, [window_component] in self.world.get_components(Window):
             self._draw_on_window(window_component)
 
-    def _draw_on_window(self, window_component: Window):
+    @staticmethod
+    def _draw_on_window(window_component: Window):
 
         window_surface = window_component.surface()
         pygame.display.flip()

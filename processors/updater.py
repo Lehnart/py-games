@@ -8,7 +8,7 @@ from mesper import Processor
 class Updater(Processor):
 
     def __init__(self):
-        super().__init__()
+        pass
 
     def process(self):
 
