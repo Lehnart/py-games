@@ -1,7 +1,7 @@
-from components.window import Window
-from mesper import World
-from processors.renderer import Renderer
-from processors.updater import Updater
+from colony_builder.engine.components.window import Window
+from colony_builder.engine.mesper import World
+from colony_builder.engine.processors.renderer import Renderer
+from colony_builder.engine.processors.updater import Updater
 
 WINDOW_SIZE = (640, 480)
 

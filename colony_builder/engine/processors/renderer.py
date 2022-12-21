@@ -2,8 +2,8 @@ import datetime
 
 import pygame
 
-from components.window import Window
-from mesper import Processor
+from colony_builder.engine.components.window import Window
+from colony_builder.engine.mesper import Processor
 
 
 class Renderer(Processor):

@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from mesper import Processor
+from colony_builder.engine.mesper import Processor
 
 
 class Updater(Processor):
