@@ -1,13 +1,11 @@
 import datetime
-import time as _time
-from functools import lru_cache as _lru_cache
-from typing import Iterable as _Iterable, Tuple, Iterable
-from typing import Tuple as _Tuple
-from typing import Type, List, Optional
+import time
+
+from functools import lru_cache
+from typing import Iterable, Tuple, Type, List, Optional
 
 
 class MessageQueue:
-
     def __init__(self):
         self._queue = {}
 
@@ -53,6 +51,7 @@ class Processor:
 class World:
 
     def __init__(self, timed=False):
+        self.is_running = True
         self._processors = []
         self._next_entity_id = 0
         self._components = {}
@@ -176,7 +175,7 @@ class World:
         for entity in self._components.get(component_type, []):
             yield entity, entity_db[entity][component_type]
 
-    def _get_components(self, *component_types: Type[Component]) -> _Iterable[_Tuple[int, List[Component]]]:
+    def _get_components(self, *component_types: Type[Component]) -> Iterable[Tuple[int, List[Component]]]:
         entity_db = self._entities
         comp_db = self._components
 
@@ -186,11 +185,11 @@ class World:
         except KeyError:
             pass
 
-    @_lru_cache()
+    @lru_cache()
     def get_component(self, component_type: Type[Component]) -> List[Tuple[int, Component]]:
         return [query for query in self._get_component(component_type)]
 
-    @_lru_cache()
+    @lru_cache()
     def get_components(self, *component_types: Type[Component]) -> List[Tuple[int, List[Component]]]:
         return [query for query in self._get_components(*component_types)]
 
@@ -231,11 +230,17 @@ class World:
 
     def _timed_process(self, *args, **kwargs):
         for processor in self._processors:
-            start_time = _time.process_time()
+            start_time = time.process_time()
             processor.process(*args, **kwargs)
-            process_time = int(round((_time.process_time() - start_time) * 1000, 2))
+            process_time = int(round((time.process_time() - start_time) * 1000, 2))
             self.process_times[processor.__class__.__name__] = process_time
 
     def process(self, *args, **kwargs):
         self._clear_dead_entities()
         self._process(*args, **kwargs)
+
+    @classmethod
+    def run(cls):
+        game_world = cls()
+        while game_world.is_running:
+            game_world.process()
