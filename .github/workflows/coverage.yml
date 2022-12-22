@@ -21,7 +21,8 @@ jobs:
             pip install pytest
         - name: Run coverage
           run: |
-            pytest --cov-report coverage.xml            
+            coverage run -m pytest  
+            coverage xml coverage.xml            
         - name: Get Cover 
           uses: orgoro/coverage@v3
           with:
