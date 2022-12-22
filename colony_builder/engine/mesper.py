@@ -13,13 +13,13 @@ class MessageQueue:
             self._queue[key] = []
         self._queue[key].append([message, 0])
 
-    def tick(self, n_processors):
-        for key, value in self._queue:
+    def tick(self, max_tick):
+        for key, value in self._queue.items():
             for message in value:
                 message[1] += 1
 
-        for key, value in self._queue:
-            self._queue[key] = [msg for msg in value if msg[1] < n_processors]
+        for key, value in self._queue.items():
+            self._queue[key] = [msg for msg in value if msg[1] < max_tick]
 
     def get(self, key: Type) -> List[object]:
         if key not in self._queue:
