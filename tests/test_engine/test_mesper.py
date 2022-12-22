@@ -1,6 +1,6 @@
 import pytest
 
-from colony_builder.engine.mesper import MessageQueue, Event, Processor
+from colony_builder.engine.mesper import MessageQueue, Event, Processor, World
 
 
 class TestMessageQueue:
@@ -54,3 +54,34 @@ class TestProcessor:
         with pytest.raises(NotImplementedError):
             processor = Processor()
             processor.process()
+
+class TestWorld :
+
+    class MyEvent(Event):
+        def __init__(self, txt: str):
+            self.txt = txt
+
+    class MyProcessor(Processor):
+
+        def process(self):
+            pass
+
+    def test_publish_and_receive(self):
+        world = World()
+        world.publish(TestWorld.MyEvent("toto"))
+        events = world.receive(TestWorld.MyEvent)
+        assert len(events) == 1
+        event = events[0]
+        assert event.txt == "toto"
+
+    def test_processor_modification(self):
+
+        world = World()
+        processor = world.get_processor(TestWorld.MyProcessor)
+        assert processor is None
+        world.add_processor(TestWorld.MyProcessor())
+        processor = world.get_processor(TestWorld.MyProcessor)
+        assert isinstance(processor, TestWorld.MyProcessor)
+        world.remove_processor(TestWorld.MyProcessor)
+        processor = world.get_processor(TestWorld.MyProcessor)
+        assert processor is None

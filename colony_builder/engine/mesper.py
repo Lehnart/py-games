@@ -69,13 +69,6 @@ class World:
         self.get_component.cache_clear()
         self.get_components.cache_clear()
 
-    def clear_database(self) -> None:
-        self._next_entity_id = 0
-        self._dead_entities.clear()
-        self._components.clear()
-        self._entities.clear()
-        self.clear_cache()
-
     def add_processor(self, processor_instance: Processor, priority=0) -> None:
         assert issubclass(processor_instance.__class__, Processor)
         processor_instance.priority = priority
