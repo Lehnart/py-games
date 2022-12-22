@@ -19,12 +19,8 @@ jobs:
             pip install pygame --pre
             pip install coverage
             pip install pytest
+            pip install coverage-badge
         - name: Run coverage
           run: |
             coverage run -m pytest  
-            coverage xml coverage.xml            
-        - name: Get Cover 
-          uses: orgoro/coverage@v3
-          with:
-              coverageFile: coverage.xml
-              token: ${{ secrets.GITHUB_TOKEN }}
+            coverage-badge -o coverage.svg     
