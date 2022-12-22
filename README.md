@@ -1,5 +1,6 @@
 [![Pylint](https://github.com/Lehnart/py-colonybuilder/actions/workflows/pylint.yml/badge.svg)](https://github.com/Lehnart/py-colonybuilder/actions/workflows/pylint.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Lehnart/py-colonybuilder/badge.svg?branch=master)](https://coveralls.io/github/Lehnart/py-colonybuilder?branch=master)
+
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Lehnart_py-colonybuilder&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Lehnart_py-colonybuilder)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Lehnart_py-colonybuilder&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Lehnart_py-colonybuilder)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Lehnart_py-colonybuilder&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Lehnart_py-colonybuilder)
