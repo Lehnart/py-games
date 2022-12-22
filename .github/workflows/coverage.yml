@@ -26,4 +26,4 @@ jobs:
             coverage run --branch --source=. -m pytest .  
         - name: Create badge
           run: |
-            COVERALLS_REPO_TOKEN=xyFCaWtiKnX5BacBw9sxoqKg5WSyKhr1t coveralls     
+            COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_TOKEN }} coveralls     
