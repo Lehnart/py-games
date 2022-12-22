@@ -20,9 +20,10 @@ jobs:
             pip install coverage
             pip install pytest
             pip install coverage-badge
+            pip install coveralls
         - name: Run coverage
           run: |
             coverage run -m pytest  
         - name: Create badge
           run: |
-            coverage-badge -o coverage.svg     
+            COVERALLS_REPO_TOKEN=xyFCaWtiKnX5BacBw9sxoqKg5WSyKhr1t coveralls     
