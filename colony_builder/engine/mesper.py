@@ -115,8 +115,10 @@ class World:
     def entity_exists(self, entity: int) -> bool:
         return entity in self._entities and entity not in self._dead_entities
 
-    def component_for_entity(self, entity: int, component_type: Type[Component]) -> Component:
-        return self._entities[entity][component_type]
+    def component_for_entity(self, entity: int, component_type: Type[Component]) -> Optional[Component]:
+        if component_type in self._entities[entity]:
+            return self._entities[entity][component_type]
+        return None
 
     def components_for_entity(self, entity: int) -> Tuple[Component, ...]:
         return tuple(self._entities[entity].values())
@@ -179,16 +181,6 @@ class World:
     @lru_cache()
     def get_components(self, *component_types: Type[Component]) -> List[Tuple[int, List[Component]]]:
         return list(query for query in self._get_components(*component_types))
-
-    def try_component(self, entity: int, component_type: Type[Component]) -> Optional[Component]:
-        if component_type in self._entities[entity]:
-            return self._entities[entity][component_type]
-        return None
-
-    def try_components(self, entity: int, *component_types: Type[Component]) -> Optional[List[List[Component]]]:
-        if all(comp_type in self._entities[entity] for comp_type in component_types):
-            return [self._entities[entity][comp_type] for comp_type in component_types]
-        return None
 
     def _clear_dead_entities(self):
         for entity in self._dead_entities:

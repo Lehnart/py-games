@@ -1,6 +1,6 @@
 import pytest
 
-from colony_builder.engine.mesper import MessageQueue, Event, Processor, World
+from colony_builder.engine.mesper import MessageQueue, Event, Processor, World, Component
 
 
 class TestMessageQueue:
@@ -66,6 +66,12 @@ class TestWorld:
         def process(self):
             """Test processor do nothing"""
 
+    class AComponent(Component):
+        pass
+
+    class AnotherComponent(Component):
+        pass
+
     def test_publish_and_receive(self):
         world = World()
         world.publish(TestWorld.MyEvent("toto"))
@@ -96,3 +102,36 @@ class TestWorld:
         assert world.entity_exists(entity_1) is False
         world.delete_entity(entity_2, True)
         assert world.entity_exists(entity_2) is False
+
+    def test_component_for_entity(self):
+        world = World()
+        comp1 = TestWorld.AComponent()
+        comp2 = TestWorld.AnotherComponent()
+
+        entity_1 = world.create_entity(comp1)
+        comp = world.component_for_entity(entity_1, TestWorld.AComponent)
+        assert comp == comp1
+        comp = world.component_for_entity(entity_1, TestWorld.AnotherComponent)
+        assert comp is None
+
+        world.add_component(entity_1, comp2)
+        comp = world.component_for_entity(entity_1, TestWorld.AComponent)
+        assert comp == comp1
+        comp = world.component_for_entity(entity_1, TestWorld.AnotherComponent)
+        assert comp == comp2
+
+        world.remove_component(entity_1, TestWorld.AComponent)
+        comp = world.component_for_entity(entity_1, TestWorld.AComponent)
+        assert comp is None
+        comp = world.component_for_entity(entity_1, TestWorld.AnotherComponent)
+        assert comp == comp2
+
+    def test_components_for_entity(self):
+        world = World()
+        comp1 = TestWorld.AComponent()
+        comp2 = TestWorld.AnotherComponent()
+
+        entity_1 = world.create_entity(comp1, comp2)
+        comps = world.components_for_entity(entity_1)
+        assert comp1 in comps
+        assert comp2 in comps
