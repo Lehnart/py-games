@@ -21,4 +21,6 @@ class Game(World):
 
 
 if __name__ == '__main__':
-    Game.run()
+    game_world = Game()
+    while game_world.is_running:
+        game_world.process()

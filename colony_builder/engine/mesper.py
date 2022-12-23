@@ -112,12 +112,6 @@ class World:
     def components_for_entity(self, entity: int) -> Tuple[Component, ...]:
         return tuple(self._entities[entity].values())
 
-    def has_component(self, entity: int, component_type: Type[Component]) -> bool:
-        return component_type in self._entities[entity]
-
-    def has_components(self, entity: int, *component_types: Type[Component]) -> bool:
-        return all(comp_type in self._entities[entity] for comp_type in component_types)
-
     def add_component(self, entity: int, component_instance: Component,
                       type_alias: Optional[Type[Component]] = None) -> None:
         component_type = type_alias or type(component_instance)
@@ -198,9 +192,3 @@ class World:
     def process(self):
         self._clear_dead_entities()
         self._process()
-
-    @classmethod
-    def run(cls):
-        game_world = cls()
-        while game_world.is_running:
-            game_world.process()
