@@ -1,4 +1,4 @@
-[![Pylint](https://github.com/Lehnart/py-colonybuilder/actions/workflows/pylint.yml/badge.svg)](https://github.com/Lehnart/py-colonybuilder/actions/workflows/pylint.yml)
+[![Pylint and Sonar](https://github.com/Lehnart/py-colonybuilder/actions/workflows/ci.yml/badge.svg)](https://github.com/Lehnart/py-colonybuilder/actions/workflows/ci.yml)
 
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Lehnart_py-colonybuilder&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Lehnart_py-colonybuilder)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Lehnart_py-colonybuilder&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Lehnart_py-colonybuilder)
