@@ -160,3 +160,7 @@ class TestWorld:
 
         comp_and_ent_list = world.get_component(TestWorld.OtherComponent)
         assert len(comp_and_ent_list) == 0
+
+        comp_and_ent_list = world.get_components(TestWorld.AComponent, TestWorld.AnotherComponent)
+        assert len(comp_and_ent_list) == 1
+        assert (entity_3, [comp1, comp2]) in comp_and_ent_list
