@@ -72,6 +72,9 @@ class TestWorld:
     class AnotherComponent(Component):
         pass
 
+    class OtherComponent(Component):
+        pass
+
     def test_publish_and_receive(self):
         world = World()
         world.publish(TestWorld.MyEvent("toto"))
@@ -135,3 +138,25 @@ class TestWorld:
         comps = world.components_for_entity(entity_1)
         assert comp1 in comps
         assert comp2 in comps
+
+    def test_get_components(self):
+        world = World()
+        comp1 = TestWorld.AComponent()
+        comp2 = TestWorld.AnotherComponent()
+
+        entity_1 = world.create_entity(comp1)
+        entity_2 = world.create_entity(comp2)
+        entity_3 = world.create_entity(comp1, comp2)
+
+        comp_and_ent_list = world.get_component(TestWorld.AComponent)
+        assert len(comp_and_ent_list) == 2
+        assert (entity_1, comp1) in comp_and_ent_list
+        assert (entity_3, comp1) in comp_and_ent_list
+
+        comp_and_ent_list = world.get_component(TestWorld.AnotherComponent)
+        assert len(comp_and_ent_list) == 2
+        assert (entity_2, comp2) in comp_and_ent_list
+        assert (entity_3, comp2) in comp_and_ent_list
+
+        comp_and_ent_list = world.get_component(TestWorld.OtherComponent)
+        assert len(comp_and_ent_list) == 0
