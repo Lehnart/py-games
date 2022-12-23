@@ -64,7 +64,7 @@ class TestWorld:
     class MyProcessor(Processor):
 
         def process(self):
-            pass
+            """Test processor do nothing"""
 
     def test_publish_and_receive(self):
         world = World()
