@@ -16,6 +16,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pygame --pre
         pip install pylint
+        pip install pytest
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
