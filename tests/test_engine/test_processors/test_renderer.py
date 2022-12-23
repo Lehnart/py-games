@@ -14,7 +14,7 @@ class TestRenderer:
 
     def test_process(self):
         world = World()
-        fps = 1000
+        fps = 10
         renderer = Renderer(fps)
         construction_date = datetime.datetime.now()
 
@@ -29,7 +29,13 @@ class TestRenderer:
         assert ent == entity
         assert construction_date < last_drawn_time
 
-        time.sleep(0.001)
+        world.process()
+        assert len(renderer.last_time_drawn_dict.items()) == 1
+        ent, next_last_drawn_time = list(renderer.last_time_drawn_dict.items())[0]
+        assert ent == entity
+        assert last_drawn_time == next_last_drawn_time
+
+        time.sleep(0.11)
         world.process()
         assert len(renderer.last_time_drawn_dict.items()) == 1
         ent, next_last_drawn_time = list(renderer.last_time_drawn_dict.items())[0]

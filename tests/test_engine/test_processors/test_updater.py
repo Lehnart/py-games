@@ -8,12 +8,14 @@ from colony_builder.engine.processors.updater import Updater
 class TestUpdater:
 
     def test_process(self):
+        pygame.init()
+
         world = World()
         updater = Updater()
         world.add_processor(updater)
 
-        pygame.init()
-        pygame.event.post(pygame.event.Event(pygame.QUIT))
+        world.process()
 
+        pygame.event.post(pygame.event.Event(pygame.QUIT))
         with pytest.raises(SystemExit):
             world.process()

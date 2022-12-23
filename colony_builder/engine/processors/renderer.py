@@ -24,6 +24,7 @@ class Renderer(Processor):
                 last_time_drawn = self.last_time_drawn_dict[ent]
                 if datetime.datetime.now() - last_time_drawn > datetime.timedelta(seconds=1. / self.frame_per_seconds):
                     self.last_time_drawn_dict[ent] = datetime.datetime.now()
+                    self._draw_on_window(window_component)
 
     @staticmethod
     def _draw_on_window(window_component: Window):
