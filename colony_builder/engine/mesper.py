@@ -98,19 +98,8 @@ class World:
 
         return self._next_entity_id
 
-    def delete_entity(self, entity: int, immediate=False) -> None:
-        if immediate:
-            for component_type in self._entities[entity]:
-                self._components[component_type].discard(entity)
-
-                if not self._components[component_type]:
-                    del self._components[component_type]
-
-            del self._entities[entity]
-            self.clear_cache()
-
-        else:
-            self._dead_entities.add(entity)
+    def delete_entity(self, entity: int) -> None:
+        self._dead_entities.add(entity)
 
     def entity_exists(self, entity: int) -> bool:
         return entity in self._entities and entity not in self._dead_entities
@@ -202,6 +191,7 @@ class World:
         self._last_process_datetime = datetime.datetime.now()
 
         for processor in self._processors:
+            # A message lives til every processor have seen it once.
             self._message_queue.tick(len(self._processors))
             processor.process()
 

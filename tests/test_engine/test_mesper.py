@@ -105,7 +105,7 @@ class TestWorld:
         assert world.entity_exists(entity_2) is True
         world.delete_entity(entity_1)
         assert world.entity_exists(entity_1) is False
-        world.delete_entity(entity_2, True)
+        world.delete_entity(entity_2)
         assert world.entity_exists(entity_2) is False
 
     def test_component_for_entity(self):
@@ -179,3 +179,24 @@ class TestWorld:
         processor = world.get_processor(TestWorld.MyProcessor)
         assert isinstance(processor, TestWorld.MyProcessor)
         assert processor.count == 1
+
+
+    def test_dead_entity(self):
+        world = World()
+        comp1 = TestWorld.AComponent()
+
+        processor = TestWorld.MyProcessor()
+        world.add_processor(processor)
+        entity_1 = world.create_entity(comp1)
+        assert world.entity_exists(entity_1) is True
+
+        world.delete_entity(entity_1)
+        assert world.entity_exists(entity_1) is False
+        comp_and_ent_list = world.get_component(TestWorld.AComponent)
+        assert len(comp_and_ent_list) == 1
+        assert (entity_1, comp1) in comp_and_ent_list
+
+        world.process()
+        assert world.entity_exists(entity_1) is False
+        comp_and_ent_list = world.get_component(TestWorld.AComponent)
+        assert len(comp_and_ent_list) == 0
