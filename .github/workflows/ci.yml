@@ -40,6 +40,9 @@ jobs:
         pip install coverage
         pip install pytest
     - name: Run coverage
+      env:
+        SDL_VIDEODRIVER: "dummy"
+        SDL_AUDIODRIVER: "disk"
       run: |
         coverage run --branch --source=. -m pytest .  
         coverage xml
