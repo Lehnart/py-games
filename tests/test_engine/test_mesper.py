@@ -1,6 +1,7 @@
 import pytest
 
-from colony_builder.engine.mesper import MessageQueue, Event, Processor, World, Component
+from colony_builder.engine.mesper import MessageQueue, Event, Processor, World, Component, NoProcessorFoundException, \
+    EntityNotFoundException
 
 
 class TestMessageQueue:
@@ -68,6 +69,10 @@ class TestWorld:
         def process(self):
             self.count += 1
 
+    class AnotherProcessor(Processor):
+        def process(self):
+            return
+
     class AComponent(Component):
         pass
 
@@ -87,14 +92,24 @@ class TestWorld:
 
     def test_processor_modification(self):
         world = World()
+
         processor = world.get_processor(TestWorld.MyProcessor)
         assert processor is None
+
         world.add_processor(TestWorld.MyProcessor())
         processor = world.get_processor(TestWorld.MyProcessor)
         assert isinstance(processor, TestWorld.MyProcessor)
+
+        processor = world.get_processor(TestWorld.AnotherProcessor)
+        assert processor is None
+
         world.remove_processor(TestWorld.MyProcessor)
         processor = world.get_processor(TestWorld.MyProcessor)
         assert processor is None
+
+        with pytest.raises(NoProcessorFoundException) as excep :
+            world.remove_processor(TestWorld.MyProcessor)
+        assert excep.value.args[0] == "No processor of type MyProcessor were found to be removed."
 
     def test_entity_creation_and_deletion(self):
         world = World()
@@ -124,6 +139,10 @@ class TestWorld:
         assert comp == comp1
         comp = world.component_for_entity(entity_1, TestWorld.AnotherComponent)
         assert comp == comp2
+
+        with pytest.raises(EntityNotFoundException) as exce:
+            world.add_component(9999, comp2)
+        assert exce.value.args[0] == "Entity 9999 was not found."
 
         world.remove_component(entity_1, TestWorld.AComponent)
         comp = world.component_for_entity(entity_1, TestWorld.AComponent)

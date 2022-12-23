@@ -45,6 +45,15 @@ class Processor:
         raise NotImplementedError
 
 
+class NoProcessorFoundException(Exception):
+    def __init__(self, error_msg: str):
+        super().__init__(error_msg)
+
+class EntityNotFoundException(Exception):
+    def __init__(self, error_msg: str):
+        super().__init__(error_msg)
+
+
 class World:
 
     def __init__(self):
@@ -81,6 +90,8 @@ class World:
             if isinstance(processor, processor_type):
                 processor.world = None
                 self._processors.remove(processor)
+                return
+        raise NoProcessorFoundException(f"No processor of type {processor_type.__name__} were found to be removed.")
 
     def get_processor(self, processor_type: Type[Processor]) -> Optional[Processor]:
         for processor in self._processors:
@@ -117,7 +128,7 @@ class World:
         component_type = type_alias or type(component_instance)
 
         if entity not in self._entities:
-            return
+            raise EntityNotFoundException(f"Entity {entity} was not found.")
 
         if component_type not in self._components:
             self._components[component_type] = set()
