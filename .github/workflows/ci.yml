@@ -13,6 +13,10 @@ jobs:
         python-version: 3.11
     - name: Install dependencies
       run: |
+        sudo apt-get update --fix-missing
+        sudo apt-get upgrade
+        sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev
+        
         python -m pip install --upgrade pip
         pip install pygame --pre
         pip install pylint
