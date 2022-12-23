@@ -25,7 +25,7 @@ jobs:
       run: |
         pylint $(git ls-files '*.py')
         
-  coverage and sonar:
+  coverage_and_sonar:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
