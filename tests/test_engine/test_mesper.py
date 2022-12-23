@@ -62,9 +62,11 @@ class TestWorld:
             self.txt = txt
 
     class MyProcessor(Processor):
+        def __init__(self):
+            self.count = 0
 
         def process(self):
-            """Test processor do nothing"""
+            self.count += 1
 
     class AComponent(Component):
         pass
@@ -164,3 +166,16 @@ class TestWorld:
         comp_and_ent_list = world.get_components(TestWorld.AComponent, TestWorld.AnotherComponent)
         assert len(comp_and_ent_list) == 1
         assert (entity_3, [comp1, comp2]) in comp_and_ent_list
+
+    def test_process(self):
+        world = World()
+        processor = TestWorld.MyProcessor()
+        world.add_processor(processor)
+        processor = world.get_processor(TestWorld.MyProcessor)
+        assert isinstance(processor, TestWorld.MyProcessor)
+        assert processor.count == 0
+
+        world.process()
+        processor = world.get_processor(TestWorld.MyProcessor)
+        assert isinstance(processor, TestWorld.MyProcessor)
+        assert processor.count == 1
