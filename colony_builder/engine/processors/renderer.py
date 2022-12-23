@@ -11,16 +11,19 @@ class Renderer(Processor):
     def __init__(self, frame_per_seconds: float):
         super().__init__()
         self.frame_per_seconds = frame_per_seconds
-        self.last_time_drawn = datetime.datetime.now()
+        self.last_time_drawn_dict = {}
 
     def process(self):
 
-        if datetime.datetime.now() - self.last_time_drawn < datetime.timedelta(seconds=1. / self.frame_per_seconds):
-            return
-        self.last_time_drawn = datetime.datetime.now()
+        for ent, [window_component] in self.world.get_components(Window):
+            if ent not in self.last_time_drawn_dict:
+                self.last_time_drawn_dict[ent] = datetime.datetime.now()
+                self._draw_on_window(window_component)
 
-        for _, [window_component] in self.world.get_components(Window):
-            self._draw_on_window(window_component)
+            else:
+                last_time_drawn = self.last_time_drawn_dict[ent]
+                if datetime.datetime.now() - last_time_drawn > datetime.timedelta(seconds=1. / self.frame_per_seconds):
+                    self.last_time_drawn_dict[ent] = datetime.datetime.now()
 
     @staticmethod
     def _draw_on_window(window_component: Window):
