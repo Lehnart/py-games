@@ -91,6 +91,8 @@ class World:
     def create_entity(self, *components: Component) -> int:
         self._next_entity_id += 1
 
+        self._entities[self._next_entity_id] = {}
+
         for cmp in components:
             self.add_component(self._next_entity_id, cmp)
 
@@ -129,13 +131,13 @@ class World:
                       type_alias: Optional[Type[Component]] = None) -> None:
         component_type = type_alias or type(component_instance)
 
+        if entity not in self._entities:
+            return
+
         if component_type not in self._components:
             self._components[component_type] = set()
 
         self._components[component_type].add(entity)
-
-        if entity not in self._entities:
-            self._entities[entity] = {}
 
         self._entities[entity][component_type] = component_instance
         self.clear_cache()

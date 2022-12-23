@@ -55,8 +55,8 @@ class TestProcessor:
             processor = Processor()
             processor.process()
 
-class TestWorld :
 
+class TestWorld:
     class MyEvent(Event):
         def __init__(self, txt: str):
             self.txt = txt
@@ -75,7 +75,6 @@ class TestWorld :
         assert event.txt == "toto"
 
     def test_processor_modification(self):
-
         world = World()
         processor = world.get_processor(TestWorld.MyProcessor)
         assert processor is None
@@ -85,3 +84,15 @@ class TestWorld :
         world.remove_processor(TestWorld.MyProcessor)
         processor = world.get_processor(TestWorld.MyProcessor)
         assert processor is None
+
+    def test_entity_creation_and_deletion(self):
+        world = World()
+        assert world.entity_exists(1) is False
+        entity_1 = world.create_entity()
+        entity_2 = world.create_entity()
+        assert world.entity_exists(entity_1) is True
+        assert world.entity_exists(entity_2) is True
+        world.delete_entity(entity_1)
+        assert world.entity_exists(entity_1) is False
+        world.delete_entity(entity_2, True)
+        assert world.entity_exists(entity_2) is False
