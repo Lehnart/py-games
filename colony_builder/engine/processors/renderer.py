@@ -2,6 +2,7 @@ import datetime
 
 import pygame
 
+from colony_builder.engine.components.sprite import Sprite
 from colony_builder.engine.components.window import Window
 from colony_builder.engine.mesper import Processor
 
@@ -26,9 +27,15 @@ class Renderer(Processor):
                     self.last_time_drawn_dict[ent] = datetime.datetime.now()
                     self._draw_on_window(window_component)
 
-    @staticmethod
-    def _draw_on_window(window_component: Window):
+    def _draw_on_window(self, window_component: Window):
+
+        sprites = [c[1] for c in self.world.get_component(Sprite)]
+        sprites.sort(key=lambda s: s.layer)
 
         window_surface = window_component.surface()
-        pygame.display.flip()
         window_surface.fill((0, 0, 0))
+
+        for sprite in sprites:
+            window_surface.blit(sprite.surface, sprite.top_left_position)
+
+        pygame.display.flip()

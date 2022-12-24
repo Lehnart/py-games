@@ -1,9 +1,9 @@
+from colony_builder import config
+
 from colony_builder.engine.components.window import Window
 from colony_builder.engine.mesper import World
 from colony_builder.engine.processors.renderer import Renderer
 from colony_builder.engine.processors.updater import Updater
-
-WINDOW_SIZE = (640, 480)
 
 
 class Game(World):
@@ -13,8 +13,13 @@ class Game(World):
         self._is_running: bool = True
 
         # Window entity
-        window = Window(WINDOW_SIZE)
+        window = Window(config.WINDOW_SIZE)
         self.create_entity(window)
+
+        for entity in config.GROUND_ENTITIES:
+            self.create_entity(entity)
+
+        self.create_entity(config.CASTLE_ENTITY)
 
         self.add_processor(Renderer(60))
         self.add_processor(Updater())

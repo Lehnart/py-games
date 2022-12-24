@@ -1,7 +1,7 @@
 import datetime
 
 from functools import lru_cache
-from typing import Iterable, Tuple, Type, List, Optional
+from typing import Iterable, Tuple, Type, List, Optional, TypeVar
 
 
 class MessageQueue:
@@ -49,9 +49,13 @@ class NoProcessorFoundException(Exception):
     def __init__(self, error_msg: str):
         super().__init__(error_msg)
 
+
 class EntityNotFoundException(Exception):
     def __init__(self, error_msg: str):
         super().__init__(error_msg)
+
+
+C = TypeVar('C')
 
 
 class World:
@@ -169,11 +173,11 @@ class World:
             pass
 
     @lru_cache()
-    def get_component(self, component_type: Type[Component]) -> List[Tuple[int, Component]]:
+    def get_component(self, component_type: Type[C]) -> List[Tuple[int, C]]:
         return list(query for query in self._get_component(component_type))
 
     @lru_cache()
-    def get_components(self, *component_types: Type[Component]) -> List[Tuple[int, List[Component]]]:
+    def get_components(self, *component_types: Type[C]) -> List[Tuple[int, List[C]]]:
         return list(query for query in self._get_components(*component_types))
 
     def _clear_dead_entities(self):
