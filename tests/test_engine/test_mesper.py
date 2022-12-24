@@ -1,6 +1,6 @@
 import pytest
 
-from colony_builder.engine.mesper import MessageQueue, Event, Processor, World, Component, NoProcessorFoundException, \
+from colony_builder.engine.mesper import EventQueue, Event, Processor, World, Component, NoProcessorFoundException, \
     EntityNotFoundException
 
 
@@ -14,7 +14,7 @@ class TestMessageQueue:
     test_message_str_1 = "Test message 1"
 
     def get_msg_queue(self):
-        msg_queue = MessageQueue()
+        msg_queue = EventQueue()
         msg_queue.add(TestMessageQueue.AnEvent, TestMessageQueue.test_message_str_1)
         return msg_queue
 

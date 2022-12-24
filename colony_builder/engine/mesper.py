@@ -1,14 +1,27 @@
 import datetime
 
 from functools import lru_cache
-from typing import Iterable, Tuple, Type, List, Optional, TypeVar
+from typing import Iterable, Tuple, Type, List, Optional, TypeVar, Self
+
+C = TypeVar('C')
+E = TypeVar('E')
 
 
-class MessageQueue:
+class Event:
+
+    def key(self) -> Type[Self]:
+        return self.__class__
+
+
+class Component:
+    pass
+
+
+class EventQueue:
     def __init__(self):
         self._queue = {}
 
-    def add(self, key: Type, message: object):
+    def add(self, key: Type[E], message: E):
         if key not in self._queue:
             self._queue[key] = []
         self._queue[key].append([message, 0])
@@ -21,20 +34,10 @@ class MessageQueue:
         for key, value in self._queue.items():
             self._queue[key] = [msg for msg in value if msg[1] < max_tick]
 
-    def get(self, key: Type) -> List[object]:
+    def get(self, key: Type[E]) -> List[E]:
         if key not in self._queue:
             return []
         return [msg[0] for msg in self._queue[key]]
-
-
-class Event:
-
-    def key(self) -> Type:
-        return self.__class__
-
-
-class Component:
-    pass
 
 
 class Processor:
@@ -55,9 +58,6 @@ class EntityNotFoundException(Exception):
         super().__init__(error_msg)
 
 
-C = TypeVar('C')
-
-
 class World:
 
     def __init__(self):
@@ -67,7 +67,7 @@ class World:
         self._components = {}
         self._entities = {}
         self._dead_entities = set()
-        self._message_queue = MessageQueue()
+        self._message_queue = EventQueue()
 
         self._last_process_datetime = datetime.datetime.now()
         self.process_dt = 0
