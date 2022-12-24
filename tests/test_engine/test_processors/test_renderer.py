@@ -1,6 +1,9 @@
 import datetime
 import time
 
+import pygame
+
+from colony_builder.engine.components.sprite import Sprite
 from colony_builder.engine.components.window import Window
 from colony_builder.engine.mesper import World
 from colony_builder.engine.processors.renderer import Renderer
@@ -40,4 +43,16 @@ class TestRenderer:
         assert len(renderer.last_time_drawn_dict.items()) == 1
         ent, next_last_drawn_time = list(renderer.last_time_drawn_dict.items())[0]
         assert ent == entity
-        assert next_last_drawn_time >= last_drawn_time + datetime.timedelta(seconds=(1./fps))
+        assert next_last_drawn_time >= last_drawn_time + datetime.timedelta(seconds=(1. / fps))
+
+    def test_sort_sprites(self):
+        pygame.init()
+        surf = pygame.Surface((5, 5))
+
+        comp1 = Sprite(surf, (1, 1), 1)
+        comp2 = Sprite(surf, (2, 2), 2)
+        comp3 = Sprite(surf, (3, 3), 3)
+
+        sprites = [comp3, comp2, comp1]
+        Renderer.sort_sprites(sprites)
+        assert sprites[0].layer < sprites[1].layer < sprites[2].layer

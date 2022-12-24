@@ -38,3 +38,12 @@ class TestUpdater:
         events = world.receive(TestUpdater.MyEvent)
         assert len(events) == 1
         assert isinstance(events[0], TestUpdater.MyEvent)
+
+        # To clear msg queue
+        world.process()
+        world.process()
+
+        pygame.event.post(pygame.event.Event(pygame.KEYDOWN, {"key": pygame.K_d}))
+        world.process()
+        events = world.receive(TestUpdater.MyEvent)
+        assert len(events) == 0
