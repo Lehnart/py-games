@@ -3,6 +3,7 @@ from colony_builder import config
 from colony_builder.engine.components.window import Window
 from colony_builder.engine.mesper import World
 from colony_builder.engine.processors.renderer import Renderer
+from colony_builder.engine.processors.sprite_mover import SpriteMover
 from colony_builder.engine.processors.updater import Updater
 
 
@@ -20,9 +21,11 @@ class Game(World):
             self.create_entity(entity)
 
         self.create_entity(config.CASTLE_ENTITY)
+        self.create_entity(config.CURSOR_SPRITE, config.CURSOR_KEYBOARD_INPUT)
 
         self.add_processor(Renderer(60))
         self.add_processor(Updater())
+        self.add_processor(SpriteMover())
 
 
 if __name__ == '__main__':

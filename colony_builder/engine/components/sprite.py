@@ -11,3 +11,9 @@ class Sprite(Component):
         self.surface = surface
         self.top_left_position = top_left_position
         self.layer = layer
+
+    def move(self, move_x: int, move_y: int):
+        tlx, tly = self.top_left_position
+        tlx += move_x
+        tly += move_y
+        self.top_left_position = (tlx, tly)

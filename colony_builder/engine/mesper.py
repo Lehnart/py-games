@@ -119,7 +119,7 @@ class World:
     def entity_exists(self, entity: int) -> bool:
         return entity in self._entities and entity not in self._dead_entities
 
-    def component_for_entity(self, entity: int, component_type: Type[Component]) -> Optional[Component]:
+    def component_for_entity(self, entity: int, component_type: Type[C]) -> Optional[C]:
         if component_type in self._entities[entity]:
             return self._entities[entity][component_type]
         return None
