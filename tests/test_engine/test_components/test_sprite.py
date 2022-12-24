@@ -12,7 +12,6 @@ class TestSprite:
         assert surf == sprite.surface
         assert (5, 5) == sprite.top_left_position
         assert 9 == sprite.layer
-        assert sprite.last_draw_time is None
 
     def test_move(self):
         pygame.init()
