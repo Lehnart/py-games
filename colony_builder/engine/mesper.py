@@ -201,7 +201,7 @@ class World:
 
         for processor in self._processors:
             # A message lives til every processor have seen it once.
-            self._message_queue.tick(len(self._processors)+1)
+            self._message_queue.tick(len(self._processors) + 1)
             processor.process()
 
     def process(self):

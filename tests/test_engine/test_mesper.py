@@ -107,7 +107,7 @@ class TestWorld:
         processor = world.get_processor(TestWorld.MyProcessor)
         assert processor is None
 
-        with pytest.raises(NoProcessorFoundException) as excep :
+        with pytest.raises(NoProcessorFoundException) as excep:
             world.remove_processor(TestWorld.MyProcessor)
         assert excep.value.args[0] == "No processor of type MyProcessor were found to be removed."
 
@@ -198,7 +198,6 @@ class TestWorld:
         processor = world.get_processor(TestWorld.MyProcessor)
         assert isinstance(processor, TestWorld.MyProcessor)
         assert processor.count == 1
-
 
     def test_dead_entity(self):
         world = World()

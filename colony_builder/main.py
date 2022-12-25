@@ -1,4 +1,4 @@
-from colony_builder import config
+from colony_builder import config, cursor
 
 from colony_builder.engine.components.window import Window
 from colony_builder.engine.mesper import World
@@ -13,7 +13,6 @@ class Game(World):
         super().__init__()
         self._is_running: bool = True
 
-        # Window entity
         window = Window(config.WINDOW_SIZE)
         self.create_entity(window)
 
@@ -21,7 +20,7 @@ class Game(World):
             self.create_entity(entity)
 
         self.create_entity(config.CASTLE_ENTITY)
-        self.create_entity(config.CURSOR_SPRITE, config.CURSOR_KEYBOARD_INPUT)
+        self.create_entity(cursor.SPRITE, cursor.KEYBOARD_INPUT)
 
         self.add_processor(Renderer(60))
         self.add_processor(Updater())
