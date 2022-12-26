@@ -10,6 +10,7 @@ from colony_builder.settlers.events.put_flag import PutFlag
 
 SURFACE = pygame.image.load("res/cursor.png")
 
+CURSOR_LAYER = 3
 
 def put_flag(ent: int, world: World):
     position = world.component_for_entity(ent, GridPosition)
@@ -36,7 +37,7 @@ def move_left(ent: int, world: World):
     world.publish(MoveOnGrid(ent, (-1, 0)))
 
 
-SPRITE = Sprite(SURFACE, (640 // 16 * 8, 480 // 16 * 8), 2)
+SPRITE = Sprite(SURFACE, (640 // 16 * 8, 480 // 16 * 8), CURSOR_LAYER)
 GRID_POSITION = GridPosition(640 // 16 * 8 // 16, 480 // 16 * 8 // 16)
 KEYBOARD_INPUT = KeyboardInput(
     {
