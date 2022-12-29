@@ -35,6 +35,7 @@ class TestAgentMover:
         assert abs(agent_comp.pos[0] - 2.) < 0.00001
         assert abs(agent_comp.pos[1] - 10.) < 0.00001
 
+        world.publish(MoveAgent(agent_ent, (2., 10.)))
         time.sleep(0.1)
         world.process()
 
