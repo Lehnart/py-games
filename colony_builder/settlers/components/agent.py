@@ -10,7 +10,7 @@ class Job(enum.Enum):
 
 class Agent(Component):
 
-    def __init__(self, pos: Tuple[float, float], speed: Tuple[float, float]):
+    def __init__(self, pos: Tuple[float, float], speed: float):
         self.job = None
         self.pos = pos
         self.speed = speed

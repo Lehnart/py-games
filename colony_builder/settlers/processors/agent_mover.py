@@ -9,7 +9,7 @@ from colony_builder.settlers.events.move_agent import MoveAgent
 
 class AgentMover(Processor):
 
-    def __init__(self):
+    def __init__(self) :
         self.last_process_time = time.time()
 
     def process(self):
@@ -29,7 +29,7 @@ class AgentMover(Processor):
                 continue
 
             vec_x, vec_y = dist_x / norm, dist_y / norm
-            move_x, move_y = delta * agent_comp.speed[0] * vec_x, delta * agent_comp.speed[1] * vec_y
+            move_x, move_y = delta * agent_comp.speed * vec_x, delta * agent_comp.speed * vec_y
 
             if abs(move_x) > abs(dist_x):
                 move_x = dist_x
