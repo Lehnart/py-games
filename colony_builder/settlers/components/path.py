@@ -11,5 +11,5 @@ class Path(Component):
         self.road_ents = road_ents
         self.worker_ent = None
 
-    def assign_worker(self, worker_ent:int):
+    def assign_worker(self, worker_ent: int):
         self.worker_ent = worker_ent

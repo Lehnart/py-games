@@ -12,6 +12,7 @@ SURFACE = pygame.image.load("res/cursor.png")
 
 CURSOR_LAYER = 3
 
+
 def put_flag(ent: int, world: World):
     position = world.component_for_entity(ent, GridPosition)
     world.publish(PutFlag(position.pos))

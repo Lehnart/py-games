@@ -52,6 +52,7 @@ class Game(World):
         self.add_processor(JobGiver())
         self.add_processor(HaulerUpdater())
 
+
 if __name__ == '__main__':
     game_world = Game()
     while game_world.is_running:

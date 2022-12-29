@@ -19,4 +19,4 @@ class Agent(Component):
         self.job = job
 
     def move(self, move: Tuple[float, float]):
-        self.pos = (self.pos[0] + move[0] , self.pos[1] + move[1])
+        self.pos = (self.pos[0] + move[0], self.pos[1] + move[1])

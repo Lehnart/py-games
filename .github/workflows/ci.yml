@@ -1,53 +1,53 @@
 name: 'CI'
-on: [push]
+on: [ push ]
 
 jobs:
 
-  pylint :
+  pylint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.11
-    - name: Install dependencies
-      run: |
-        sudo apt-get update --fix-missing
-        sudo apt-get upgrade
-        sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev
-        
-        python -m pip install --upgrade pip
-        pip install pygame --pre
-        pip install pylint
-        pip install pytest
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
-        
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt-get upgrade
+          sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev
+          
+          python -m pip install --upgrade pip
+          pip install pygame --pre
+          pip install pylint
+          pip install pytest
+      - name: Analysing the code with pylint
+        run: |
+          pylint $(git ls-files '*.py')
+
   coverage_and_sonar:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.11
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pygame --pre
-        pip install coverage
-        pip install pytest
-    - name: Run coverage
-      env:
-        SDL_VIDEODRIVER: "dummy"
-        SDL_AUDIODRIVER: "disk"
-      run: |
-        coverage run --branch --source=. -m pytest .  
-        coverage xml
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygame --pre
+          pip install coverage
+          pip install pytest
+      - name: Run coverage
+        env:
+          SDL_VIDEODRIVER: "dummy"
+          SDL_AUDIODRIVER: "disk"
+        run: |
+          coverage run --branch --source=. -m pytest .  
+          coverage xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

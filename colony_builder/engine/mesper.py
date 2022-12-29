@@ -75,7 +75,7 @@ class World:
     def publish(self, event: Event):
         self._message_queue.add(event.key(), event)
 
-    def receive(self, event_class : Type[E]) -> List[E]:
+    def receive(self, event_class: Type[E]) -> List[E]:
         return self._message_queue.get(event_class)
 
     def clear_cache(self) -> None:

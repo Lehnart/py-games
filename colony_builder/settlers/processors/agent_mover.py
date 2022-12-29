@@ -25,13 +25,13 @@ class AgentMover(Processor):
             dist_x, dist_y = (dest[0] - pos[0], dest[1] - pos[1])
             norm = math.sqrt((dist_x ** 2) + (dist_y ** 2))
 
-            if norm < 0.001 :
+            if norm < 0.001:
                 continue
 
             vec_x, vec_y = dist_x / norm, dist_y / norm
             move_x, move_y = delta * agent_comp.speed[0] * vec_x, delta * agent_comp.speed[1] * vec_y
 
-            if abs(move_x) > abs(dist_x) :
+            if abs(move_x) > abs(dist_x):
                 move_x = dist_x
             if abs(move_y) > abs(dist_y):
                 move_y = dist_y
