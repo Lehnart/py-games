@@ -44,6 +44,7 @@ class RoadBuilder(Processor):
         flag1_x, flag1_y = flag1_pos
         flag2_x, flag2_y = flag2_pos
         for road_x in range(min(flag1_x, flag2_x), max(flag1_x, flag2_x) + 1):
+
             for road_y in range(min(flag1_y, flag2_y), max(flag1_y, flag2_y) + 1):
                 road_ents.append(self.create_road(road_x, road_y))
         return road_ents
@@ -62,7 +63,6 @@ class RoadBuilder(Processor):
                 first_flag_position_comp = self.world.component_for_entity(self.flag1_ent, GridPosition)
                 flag1_x, flag1_y = first_flag_position_comp.pos
                 flag1_ent = self.flag1_ent
-                road_ents = []
 
                 if flag1_x != grid_x and flag1_y != grid_y:
                     self.world.delete_entity(self.flag1_ent)
