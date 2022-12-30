@@ -18,6 +18,9 @@ class TestJobGiver:
         path = TestPath.create_test_path(world)
         world.publish(NeedHauler(path))
         agent = world.create_entity(Agent((0., 0.), 1.))
+        agent2 = world.create_entity(Agent((0., 0.), 1.))
+        agent2_comp = world.component_for_entity(agent2, Agent)
+        agent2_comp.job = Job.HAULER
 
         world.process()
         path_comp = world.component_for_entity(path, Path)
