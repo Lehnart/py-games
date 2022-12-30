@@ -9,7 +9,7 @@ from colony_builder.settlers.events.move_agent import MoveAgent
 
 class AgentMover(Processor):
 
-    def __init__(self) :
+    def __init__(self):
         self.last_process_time = time.time()
 
     def process(self):
