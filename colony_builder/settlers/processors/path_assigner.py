@@ -11,4 +11,3 @@ class PathAssigner(Processor):
         for path_ent, path_comp in paths:
             if path_comp.worker_ent is None:
                 self.world.publish(NeedHauler(path_ent))
-                print("Need Hauler event published")
