@@ -40,6 +40,6 @@ class AgentMover(Processor):
             self.world.publish(
                 SetSpritePosition(
                     move_agent_event.agent_ent,
-                    (int(agent_comp.pos[0] * 16), int(agent_comp.pos[1] * 16))
+                    (int(agent_comp.pos[0]) * 16, int(agent_comp.pos[1]) * 16)
                 )
             )

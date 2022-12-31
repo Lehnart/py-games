@@ -30,16 +30,16 @@ class Game(World):
         self.create_entity(cursor.SPRITE, cursor.KEYBOARD_INPUT, cursor.GRID_POSITION)
         self.create_entity(
             Sprite(config.HUMAN_SURFACE, (0, 0), config.AGENT_LAYER),
-            Agent((0, 0), (5, 5))
+            Agent((0, 0), 5.)
         )
         self.create_entity(
             Sprite(config.HUMAN_SURFACE, (16, 16), config.AGENT_LAYER),
-            Agent((1, 1), (5, 5))
+            Agent((1, 1), 5.)
         )
 
         self.create_entity(
             Sprite(config.HUMAN_SURFACE, (32, 32), config.AGENT_LAYER),
-            Agent((2, 2), (5, 5))
+            Agent((2, 2), 5.)
         )
 
         self.add_processor(Renderer(60))
