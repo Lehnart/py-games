@@ -28,19 +28,13 @@ class Game(World):
 
         self.create_entity(config.CASTLE_ENTITY)
         self.create_entity(cursor.SPRITE, cursor.KEYBOARD_INPUT, cursor.GRID_POSITION)
-        self.create_entity(
-            Sprite(config.HUMAN_SURFACE, (0, 0), config.AGENT_LAYER),
-            Agent((0, 0), 5.)
-        )
-        self.create_entity(
-            Sprite(config.HUMAN_SURFACE, (16, 16), config.AGENT_LAYER),
-            Agent((1, 1), 5.)
-        )
 
-        self.create_entity(
-            Sprite(config.HUMAN_SURFACE, (32, 32), config.AGENT_LAYER),
-            Agent((2, 2), 5.)
-        )
+        for pos_x in range(0, 5):
+            for pos_y in range(0, 5):
+                self.create_entity(
+                    Sprite(config.HUMAN_SURFACE, (pos_x * 16, pos_y * 16), config.AGENT_LAYER),
+                    Agent((pos_x, pos_y), 5.)
+                )
 
         self.add_processor(Renderer(60))
         self.add_processor(Updater())

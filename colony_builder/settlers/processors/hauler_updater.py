@@ -12,7 +12,7 @@ class HaulerUpdater(Processor):
     def compute_path_mean_position(self, path_comp: Path) -> Tuple[float, float]:
         road_ents = path_comp.road_ents
         grid_pos_comps = [self.world.component_for_entity(road_ent, GridPosition) for road_ent in road_ents]
-        gpxs, gpys = [gpc.pos[0] for gpc in grid_pos_comps], [gpc.pos[1] for gpc in grid_pos_comps]
+        gpxs, gpys = [gpc.pos[0] + 0.5 for gpc in grid_pos_comps], [gpc.pos[1] + 0.5 for gpc in grid_pos_comps]
         return sum(gpxs) / len(gpxs), sum(gpys) / len(gpys)
 
     def process(self):

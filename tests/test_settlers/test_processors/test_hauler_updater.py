@@ -21,5 +21,5 @@ class TestHaulerUpdater:
         assert len(move_agent_events) == 1
         move_agent_event = move_agent_events[0]
         assert move_agent_event.agent_ent == hauler
-        assert move_agent_event.destination[0] == 1
-        assert move_agent_event.destination[1] == 0
+        assert move_agent_event.destination[0] == 1.5
+        assert move_agent_event.destination[1] == 0.5
