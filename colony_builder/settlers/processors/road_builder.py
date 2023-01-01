@@ -18,6 +18,19 @@ class RoadBuilder(Processor):
         self.was_first_flag_existing = False
         self.flag1_ent = None
 
+    def process(self):
+
+        put_flag_events = self.world.receive(PutFlag)
+        for put_flag_event in put_flag_events:
+            grid_x, grid_y = put_flag_event.grid_position
+            sprite_x, sprite_y = grid_x * config.SPRITE_SIZE, grid_y * config.SPRITE_SIZE
+
+            if not self.is_first_flag_set:
+                self.set_first_flag(grid_x, grid_y, sprite_x, sprite_y)
+
+            else:
+                self.set_second_flag(grid_x, grid_y, sprite_x, sprite_y)
+
     def create_road(self, road_x: int, road_y: int):
         return self.world.create_entity(
             Sprite(
@@ -82,41 +95,33 @@ class RoadBuilder(Processor):
             return False
         return True
 
-    def process(self):
+    def set_first_flag(self, grid_x: int, grid_y: int, sprite_x: int, sprite_y: int):
+        flag1_ent = self.is_flag_at_position(grid_x, grid_y)
+        if flag1_ent:
+            self.select_first_flag(flag1_ent)
+        else:
+            self.create_first_flag(grid_x, grid_y, sprite_x, sprite_y)
 
-        put_flag_events = self.world.receive(PutFlag)
-        for put_flag_event in put_flag_events:
-            grid_x, grid_y = put_flag_event.grid_position
-            sprite_x, sprite_y = grid_x * config.SPRITE_SIZE, grid_y * config.SPRITE_SIZE
+    def set_second_flag(self, grid_x: int, grid_y: int, sprite_x: int, sprite_y: int):
+        first_flag_position_comp = self.world.component_for_entity(self.flag1_ent, GridPosition)
+        flag1_x, flag1_y = first_flag_position_comp.pos
+        flag1_ent = self.flag1_ent
+        flag2_x, flag2_y = grid_x, grid_y
 
-            if not self.is_first_flag_set:
+        if not self.is_valid_road(flag1_x, flag1_y, flag2_x, flag2_y):
+            if not self.was_first_flag_existing:
+                self.world.delete_entity(self.flag1_ent)
 
-                flag1_ent = self.is_flag_at_position(grid_x, grid_y)
-                if flag1_ent:
-                    self.select_first_flag(flag1_ent)
-                else:
-                    self.create_first_flag(grid_x, grid_y, sprite_x, sprite_y)
+        else:
+            flag2_ent = self.is_flag_at_position(grid_x, grid_y)
+            if not flag2_ent:
+                flag2_ent = self.create_flag(grid_x, grid_y, sprite_x, sprite_y)
 
-            else:
-                first_flag_position_comp = self.world.component_for_entity(self.flag1_ent, GridPosition)
-                flag1_x, flag1_y = first_flag_position_comp.pos
-                flag1_ent = self.flag1_ent
-                flag2_x, flag2_y = grid_x, grid_y
+            road_ents = self.create_roads((flag1_x, flag1_y), (flag2_x, flag2_y))
 
-                if not self.is_valid_road(flag1_x, flag1_y, flag2_x, flag2_y):
-                    if not self.was_first_flag_existing:
-                        self.world.delete_entity(self.flag1_ent)
+            self.world.create_entity(
+                Path(flag1_ent, flag2_ent, road_ents)
+            )
 
-                else:
-                    flag2_ent = self.is_flag_at_position(grid_x, grid_y)
-                    if not flag2_ent:
-                        flag2_ent = self.create_flag(grid_x, grid_y, sprite_x, sprite_y)
-
-                    road_ents = self.create_roads((flag1_x, flag1_y), (flag2_x, flag2_y))
-
-                    self.world.create_entity(
-                        Path(flag1_ent, flag2_ent, road_ents)
-                    )
-
-                self.is_first_flag_set = False
-                self.flag1_ent = None
+        self.is_first_flag_set = False
+        self.flag1_ent = None
