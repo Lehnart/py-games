@@ -1,3 +1,4 @@
+from colony_builder.engine.components.grid_position import GridPosition
 from colony_builder.engine.components.sprite import Sprite
 from colony_builder.engine.components.window import Window
 from colony_builder.engine.mesper import World
@@ -7,10 +8,14 @@ from colony_builder.engine.processors.sprite_mover import SpriteMover
 from colony_builder.engine.processors.updater import Updater
 from colony_builder.settlers import config, cursor
 from colony_builder.settlers.components.agent import Agent
+from colony_builder.settlers.components.flag import Flag
+from colony_builder.settlers.components.resource import Resource, ResourceType
+from colony_builder.settlers.components.resource_destination import ResourceDestination
 from colony_builder.settlers.processors.agent_mover import AgentMover
 from colony_builder.settlers.processors.hauler_updater import HaulerUpdater
 from colony_builder.settlers.processors.job_giver import JobGiver
 from colony_builder.settlers.processors.path_assigner import PathAssigner
+from colony_builder.settlers.processors.resource_path_planner import ResourcePathPlanner
 from colony_builder.settlers.processors.road_builder import RoadBuilder
 
 
@@ -27,6 +32,19 @@ class Game(World):
             self.create_entity(entity)
 
         self.create_entity(config.CASTLE_ENTITY)
+        self.create_entity(
+            Sprite(config.FLAG_SURFACE, (320, 256), config.FLAG_LAYER),
+            Flag(),
+            GridPosition(20, 16),
+            ResourceDestination()
+        )
+
+        self.create_entity(
+            Sprite(config.WOOD_SURFACE, (368, 256), config.RESSOURCE_LAYER),
+            Resource(ResourceType.WOOD),
+            GridPosition(23, 16),
+        )
+
         self.create_entity(cursor.SPRITE, cursor.KEYBOARD_INPUT, cursor.GRID_POSITION)
 
         for pos_x in range(0, 5):
@@ -45,6 +63,7 @@ class Game(World):
         self.add_processor(AgentMover())
         self.add_processor(JobGiver())
         self.add_processor(HaulerUpdater())
+        self.add_processor(ResourcePathPlanner())
 
 
 if __name__ == '__main__':

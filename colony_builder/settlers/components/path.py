@@ -13,3 +13,6 @@ class Path(Component):
 
     def assign_worker(self, worker_ent: int):
         self.worker_ent = worker_ent
+
+    def length(self) -> int :
+        return len(self.road_ents) - 1

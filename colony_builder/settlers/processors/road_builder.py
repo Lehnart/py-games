@@ -44,7 +44,7 @@ class RoadBuilder(Processor):
 
     def create_flag(self, flag_x: int, flag_y: int, sprite_x, sprite_y) -> int:
         return self.world.create_entity(
-            Sprite(FLAG_SURFACE, (sprite_x, sprite_y), config.BUILDING_LAYER),
+            Sprite(FLAG_SURFACE, (sprite_x, sprite_y), config.FLAG_LAYER),
             GridPosition(flag_x, flag_y),
             Flag()
         )
