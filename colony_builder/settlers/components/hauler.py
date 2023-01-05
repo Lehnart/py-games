@@ -16,3 +16,4 @@ class Hauler(Component):
         self.path_ent = path_ent
         self.state = Hauler.State.IDLE
         self.flag_destination = None
+        self.resource_to_pick = None
