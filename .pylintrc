@@ -7,6 +7,7 @@ disable=
     R0902,
     R0903,
     R0904,
+    W0201,
     E1101
 
 # Analyse import fallback blocks. This can be used to support both Python 2 and

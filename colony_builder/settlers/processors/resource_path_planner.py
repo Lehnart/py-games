@@ -35,7 +35,7 @@ class ResourcePathPlanner(Processor):
                 resource_paths = self.find_path(flag_src_ent, flag_dest_ent, path_graph)
                 resource_comp.next_flag = resource_paths[0][1]
 
-    def construct_path_graph(self):
+    def construct_path_graph(self) -> Dict[int, Dict[int, int]]:
         graph = {}
         paths = self.world.get_component(Path)
         for _, path_comp in paths:
@@ -60,7 +60,7 @@ class ResourcePathPlanner(Processor):
 
     def find_path(self, flag1: int, flag2: int, path_graph: Dict[int, Dict[int, int]], path: List[int] = None):
 
-        if path is None :
+        if path is None:
             path = []
 
         path = path + [flag1]
