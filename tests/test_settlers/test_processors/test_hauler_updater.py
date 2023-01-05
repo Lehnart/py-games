@@ -1,4 +1,5 @@
 from colony_builder.engine.mesper import World
+from colony_builder.settlers.components.agent import Agent
 from colony_builder.settlers.components.hauler import Hauler
 from colony_builder.settlers.events.move_agent import MoveAgent
 from colony_builder.settlers.processors.hauler_updater import HaulerUpdater
@@ -14,7 +15,7 @@ class TestHaulerUpdater:
 
         path = TestPath.create_test_path(world)
 
-        hauler = world.create_entity(Hauler(path))
+        hauler = world.create_entity(Hauler(path), Agent((0,0), 1.))
         world.process()
 
         move_agent_events = world.receive(MoveAgent)

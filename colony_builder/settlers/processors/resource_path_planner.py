@@ -23,7 +23,9 @@ class ResourcePathPlanner(Processor):
 
             if resource_pos.pos not in positions_with_flag:
                 continue
+
             flag_src_ent = positions_with_flag[resource_pos.pos]
+            resource_comp.current_flag = flag_src_ent
 
             if resource_comp.destination is None:
                 resource_comp.destination = flag_dest_ent
