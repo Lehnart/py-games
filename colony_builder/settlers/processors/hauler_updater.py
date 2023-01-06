@@ -1,5 +1,5 @@
 import math
-from typing import Tuple, Optional
+from typing import Tuple, List
 
 from colony_builder.engine.components.grid_position import GridPosition
 from colony_builder.engine.components.sprite import Sprite
@@ -28,19 +28,20 @@ class HaulerUpdater(Processor):
                 if dist > self.distance_tolerance:
                     hauler_comp.state = Hauler.State.MOVING_TO_PATH
                 else:
-                    flag_and_resource = self.get_flag_with_resource_to_pick(path_comp)
-                    if not flag_and_resource:
+                    flags_and_resources = self.get_flag_with_resource_to_pick(path_comp)
+                    if not flags_and_resources:
                         continue
 
-                    flag, resource = flag_and_resource
-                    resource_comp = self.world.component_for_entity(resource, Resource)
-                    if (
-                            (flag == path_comp.flag1_ent and resource_comp.next_flag == path_comp.flag2_ent) or
-                            (flag == path_comp.flag2_ent and resource_comp.next_flag == path_comp.flag1_ent)
-                    ):
-                        hauler_comp.state = Hauler.State.MOVING_TO_PICK
-                    hauler_comp.flag_destination = flag
-                    hauler_comp.resource_to_pick = resource
+                    for flag, resource in flags_and_resources:
+                        resource_comp = self.world.component_for_entity(resource, Resource)
+                        if (
+                                (flag == path_comp.flag1_ent and resource_comp.next_flag == path_comp.flag2_ent) or
+                                (flag == path_comp.flag2_ent and resource_comp.next_flag == path_comp.flag1_ent)
+                        ):
+                            hauler_comp.state = Hauler.State.MOVING_TO_PICK
+                            hauler_comp.flag_destination = flag
+                            hauler_comp.resource_to_pick = resource
+                            break
 
             if hauler_comp.state == Hauler.State.MOVING_TO_PATH:
                 if dist < self.distance_tolerance:
@@ -87,16 +88,16 @@ class HaulerUpdater(Processor):
                 hauler_comp.resource_to_pick = None
                 hauler_comp.state = Hauler.State.IDLE
 
-
-    def get_flag_with_resource_to_pick(self, path_comp: Path) -> Optional[Tuple[int, int]]:
+    def get_flag_with_resource_to_pick(self, path_comp: Path) -> List[Tuple[int, int]]:
+        flags_and_resources = []
         flag1, flag2 = path_comp.flag1_ent, path_comp.flag2_ent
         resources = self.world.get_component(Resource)
         for resource_ent, resource_comp in resources:
             if resource_comp.current_flag == flag1:
-                return flag1, resource_ent
+                flags_and_resources.append((flag1, resource_ent))
             if resource_comp.current_flag == flag2:
-                return flag2, resource_ent
-        return None
+                flags_and_resources.append((flag2, resource_ent))
+        return flags_and_resources
 
     def compute_path_mean_position(self, path_comp: Path) -> Tuple[float, float]:
         road_ents = path_comp.road_ents

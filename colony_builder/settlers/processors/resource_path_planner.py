@@ -27,6 +27,9 @@ class ResourcePathPlanner(Processor):
             flag_src_ent = positions_with_flag[resource_pos.pos]
             resource_comp.current_flag = flag_src_ent
 
+            if resource_comp.current_flag == resource_comp.destination:
+                continue
+
             if resource_comp.destination is None:
                 resource_comp.destination = flag_dest_ent
 
@@ -35,7 +38,11 @@ class ResourcePathPlanner(Processor):
                     path_graph = self.construct_path_graph()
 
                 resource_paths = self.find_path(flag_src_ent, flag_dest_ent, path_graph)
-                resource_comp.next_flag = resource_paths[0][1]
+
+                if resource_paths:
+                    min_path_length = min(len(path) for path in resource_paths)
+                    min_paths = [path for path in resource_paths if len(path) == min_path_length]
+                    resource_comp.next_flag = min_paths[0][1]
 
     def construct_path_graph(self) -> Dict[int, Dict[int, int]]:
         graph = {}
@@ -70,6 +77,9 @@ class ResourcePathPlanner(Processor):
             return [path]
 
         paths = []
+
+        if flag1 not in path_graph:
+            return []
 
         for flag in path_graph[flag1]:
             if flag not in path:

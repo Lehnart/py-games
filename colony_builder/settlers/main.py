@@ -39,10 +39,27 @@ class Game(World):
             ResourceDestination()
         )
 
+
         self.create_entity(
-            Sprite(config.WOOD_SURFACE, (368, 256), config.RESSOURCE_LAYER),
+            Sprite(config.WOOD_SURFACE, (320, 256+(16*3)), config.RESSOURCE_LAYER),
             Resource(ResourceType.WOOD),
-            GridPosition(23, 16),
+            GridPosition(20, 19),
+        )
+        self.create_entity(
+            Sprite(config.WOOD_SURFACE, (320, 256+(16*3)), config.RESSOURCE_LAYER),
+            Resource(ResourceType.WOOD),
+            GridPosition(20, 19),
+        )
+
+        self.create_entity(
+            Sprite(config.WOOD_SURFACE, (320, 256+(16*3)), config.RESSOURCE_LAYER),
+            Resource(ResourceType.WOOD),
+            GridPosition(20, 19),
+        )
+        self.create_entity(
+            Sprite(config.WOOD_SURFACE, (320, 256+(16*3)), config.RESSOURCE_LAYER),
+            Resource(ResourceType.WOOD),
+            GridPosition(20, 19),
         )
 
         self.create_entity(cursor.SPRITE, cursor.KEYBOARD_INPUT, cursor.GRID_POSITION)
