@@ -16,7 +16,8 @@ class TestHaulerUpdater:
         path = TestPath.create_test_path(world)
 
         hauler = world.create_entity(Hauler(path), Agent((0,0), 1.))
-        world.process()
+        world.process() # Changing state from idle to moving
+        world.process() # Start moving
 
         move_agent_events = world.receive(MoveAgent)
         assert len(move_agent_events) == 1
