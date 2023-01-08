@@ -1,4 +1,4 @@
-from colony_builder.engine.mesper import Processor
+from engine.mesper import Processor
 from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.events.need_hauler import NeedHauler
 

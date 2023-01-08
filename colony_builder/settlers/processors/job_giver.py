@@ -1,4 +1,4 @@
-from colony_builder.engine.mesper import Processor
+from engine.mesper import Processor
 from colony_builder.settlers.components.agent import Agent, Job
 from colony_builder.settlers.components.hauler import Hauler
 from colony_builder.settlers.components.path import Path

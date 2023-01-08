@@ -1,0 +1,6 @@
+[submodule "py-ecs"]
+	path = py-ecs
+	url = https://github.com/Lehnart/py-ecs
+[submodule "engine"]
+	path = engine
+	url = https://github.com/Lehnart/py-ecs

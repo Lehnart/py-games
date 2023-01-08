@@ -1,4 +1,4 @@
-from colony_builder.engine.mesper import Event
+from engine.mesper import Event
 
 
 class NeedHauler(Event):

@@ -1,7 +1,7 @@
 import enum
 from typing import Tuple
 
-from colony_builder.engine.mesper import Component
+from engine.mesper import Component
 
 
 class Job(enum.Enum):

@@ -1,7 +1,7 @@
 from typing import Dict, List
 
-from colony_builder.engine.components.grid_position import GridPosition
-from colony_builder.engine.mesper import Processor
+from engine.components.grid_position import GridPosition
+from engine.mesper import Processor
 from colony_builder.settlers.components.flag import Flag
 from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.components.resource import Resource

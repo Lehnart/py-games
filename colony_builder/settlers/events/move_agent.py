@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from colony_builder.engine.mesper import Event
+from engine.mesper import Event
 
 
 class MoveAgent(Event):

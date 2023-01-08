@@ -1,8 +1,8 @@
 from typing import Tuple, Optional
 
-from colony_builder.engine.components.grid_position import GridPosition
-from colony_builder.engine.components.sprite import Sprite
-from colony_builder.engine.mesper import Processor
+from engine.components.grid_position import GridPosition
+from engine.components.sprite import Sprite
+from engine.mesper import Processor
 from colony_builder.settlers import config
 from colony_builder.settlers.components.flag import Flag
 from colony_builder.settlers.components.path import Path
