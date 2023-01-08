@@ -1,11 +1,11 @@
-from engine.components.grid_position import GridPosition
-from engine.components.sprite import Sprite
-from engine.components.window import Window
-from engine.mesper import World
-from engine.processors.grid_mover import GridMover
-from engine.processors.renderer import Renderer
-from engine.processors.sprite_mover import SpriteMover
-from engine.processors.updater import Updater
+from mesper. components.grid_position import GridPosition
+from mesper. components.sprite import Sprite
+from mesper. components.window import Window
+from mesper.mesper import World
+from mesper. processors.grid_mover import GridMover
+from mesper. processors.renderer import Renderer
+from mesper. processors.sprite_mover import SpriteMover
+from mesper. processors.updater import Updater
 from colony_builder.settlers import config, cursor
 from colony_builder.settlers.components.agent import Agent
 from colony_builder.settlers.components.flag import Flag

@@ -1,4 +1,4 @@
-from engine.mesper import World
+from mesper.mesper import World
 from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.events.need_hauler import NeedHauler
 from colony_builder.settlers.processors.path_assigner import PathAssigner

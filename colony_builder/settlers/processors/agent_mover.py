@@ -1,8 +1,8 @@
 import math
 import time
 
-from engine.events.set_sprite_position import SetSpritePosition
-from engine.mesper import Processor
+from mesper. events.set_sprite_position import SetSpritePosition
+from mesper.mesper import Processor
 from colony_builder.settlers.components.agent import Agent
 from colony_builder.settlers.events.move_agent import MoveAgent
 

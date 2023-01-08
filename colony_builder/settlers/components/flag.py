@@ -1,4 +1,4 @@
-from engine.mesper import Component
+from mesper.mesper import Component
 
 
 class Flag(Component):

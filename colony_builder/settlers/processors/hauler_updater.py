@@ -1,9 +1,9 @@
 import math
 from typing import Tuple, List
 
-from engine.components.grid_position import GridPosition
-from engine.components.sprite import Sprite
-from engine.mesper import Processor
+from mesper. components.grid_position import GridPosition
+from mesper. components.sprite import Sprite
+from mesper.mesper import Processor
 from colony_builder.settlers import config
 from colony_builder.settlers.components.agent import Agent
 from colony_builder.settlers.components.hauler import Hauler

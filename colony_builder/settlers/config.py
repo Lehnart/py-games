@@ -3,7 +3,7 @@ import os
 import pygame.image
 
 import colony_builder
-from engine.components.sprite import Sprite
+from mesper. components.sprite import Sprite
 
 WINDOW_SIZE = (640, 480)
 

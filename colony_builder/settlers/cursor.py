@@ -1,11 +1,11 @@
 import pygame
 
-from engine.components.grid_position import GridPosition
-from engine.components.keyboard_input import KeyboardInput
-from engine.components.sprite import Sprite
-from engine.events.move_on_grid import MoveOnGrid
-from engine.events.move_sprite import MoveSprite
-from engine.mesper import World
+from mesper. components.grid_position import GridPosition
+from mesper. components.keyboard_input import KeyboardInput
+from mesper. components.sprite import Sprite
+from mesper. events.move_on_grid import MoveOnGrid
+from mesper. events.move_sprite import MoveSprite
+from mesper.mesper import World
 from colony_builder.settlers.events.put_flag import PutFlag
 
 SURFACE = pygame.image.load("res/cursor.png")

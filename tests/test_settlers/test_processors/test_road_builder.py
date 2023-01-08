@@ -1,5 +1,5 @@
-from engine.components.grid_position import GridPosition
-from engine.mesper import World
+from mesper. components.grid_position import GridPosition
+from mesper.mesper import World
 from colony_builder.settlers.components.flag import Flag
 from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.components.road import Road

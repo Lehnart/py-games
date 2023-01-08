@@ -1,6 +1,6 @@
 from typing import List
 
-from engine.mesper import Component
+from mesper.mesper import Component
 
 
 class Path(Component):
