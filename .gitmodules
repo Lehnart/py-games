@@ -4,3 +4,6 @@
 [submodule "engine"]
 	path = engine
 	url = https://github.com/Lehnart/py-ecs
+[submodule "mesper"]
+	path = mesper
+	url = https://github.com/Lehnart/mesper
