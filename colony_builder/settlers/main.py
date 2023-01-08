@@ -82,8 +82,5 @@ class Game(World):
         self.add_processor(HaulerUpdater())
         self.add_processor(ResourcePathPlanner())
 
-
 if __name__ == '__main__':
-    game_world = Game()
-    while game_world.is_running:
-        game_world.process()
+    Game().run()

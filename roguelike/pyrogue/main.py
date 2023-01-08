@@ -9,8 +9,6 @@ class Game(World):
 
     def __init__(self):
         super().__init__()
-        self._is_running: bool = True
-
 
         window = Window(config.WINDOW_SIZE)
         self.create_entity(window)
@@ -20,6 +18,4 @@ class Game(World):
 
 
 if __name__ == '__main__':
-    game_world = Game()
-    while game_world.is_running:
-        game_world.process()
+    Game().run()
