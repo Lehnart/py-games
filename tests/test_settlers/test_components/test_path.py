@@ -9,8 +9,8 @@ class TestPath:
 
     @staticmethod
     def create_test_path(world: World) -> int:
-        flag1 = world.create_entity(Flag())
-        flag2 = world.create_entity(Flag())
+        flag1 = world.create_entity(Flag(), GridPosition(0, 0))
+        flag2 = world.create_entity(Flag(), GridPosition(2, 0))
         road1 = world.create_entity(Road(), GridPosition(0, 0))
         road2 = world.create_entity(Road(), GridPosition(1, 0))
         road3 = world.create_entity(Road(), GridPosition(2, 0))
