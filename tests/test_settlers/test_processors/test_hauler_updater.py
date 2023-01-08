@@ -82,3 +82,8 @@ class TestHaulerUpdater:
 
         resource_ent = world.create_entity(resource_comp)
         assert hauler_updater.get_flag_with_resource_to_pick(path_comp) == [(path_comp.flag1_ent, resource_ent)]
+
+        resource_comp.current_flag = path_comp.flag2_ent
+        resource_comp.destination = path_comp.flag1_ent
+        resource_comp.next_flag = path_comp.flag1_ent
+        assert hauler_updater.get_flag_with_resource_to_pick(path_comp) == [(path_comp.flag2_ent, resource_ent)]
