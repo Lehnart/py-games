@@ -64,10 +64,11 @@ class TestHaulerUpdater:
         hauler_comp = world.component_for_entity(hauler_ent, Hauler)
         hauler_comp.flag_destination = flag_dest
         agent_comp = world.component_for_entity(hauler_ent, Agent)
-        assert not hauler_updater.check_distance_to_destination_flag(hauler_comp, agent_comp)
-
+        is_close, _ = hauler_updater.check_distance_to_destination_flag(hauler_comp, agent_comp)
+        assert not is_close
         agent_comp.pos = (2.5, 0.5)
-        assert hauler_updater.check_distance_to_destination_flag(hauler_comp, agent_comp)
+        is_close, _ = hauler_updater.check_distance_to_destination_flag(hauler_comp, agent_comp)
+        assert is_close
 
     def test_flag_with_resource_to_pick(self):
         world = World()

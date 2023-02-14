@@ -122,7 +122,7 @@ class HaulerUpdater(Processor):
     def check_distance_to_destination_flag(self, hauler_comp: Hauler, agent_comp: Agent):
         flag_pos = self.compute_flag_mean_position(hauler_comp.flag_destination)
         dist = math.sqrt((agent_comp.pos[0] - flag_pos[0]) ** 2 + (agent_comp.pos[1] - flag_pos[1]) ** 2)
-        return dist < self.distance_tolerance
+        return dist < self.distance_tolerance, flag_pos
 
     def compute_flag_mean_position(self, flag: int) -> Tuple[float, float]:
         grid_pos_comp = self.world.component_for_entity(flag, GridPosition)
