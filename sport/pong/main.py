@@ -32,7 +32,8 @@ class Game(World):
                         lambda ent, world: world.publish(MoveRectangle(ent, 0, - world.process_dt * PADDLE_SPEED)),
                     pygame.K_DOWN:
                         lambda ent, world: world.publish(MoveRectangle(ent, 0, + world.process_dt * PADDLE_SPEED)),
-                }
+                },
+                is_repeated=True
             )
         )
 
