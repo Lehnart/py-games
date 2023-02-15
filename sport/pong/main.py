@@ -1,5 +1,6 @@
 import pygame
 
+from mesper.components.collision import Collision
 from mesper.components.keyboard_input import KeyboardInput
 from mesper.components.rectangle import Rectangle
 from mesper.components.window import Window
@@ -23,7 +24,8 @@ class Game(World):
 
         # Left Paddle Entity
         lp_rectangle = Rectangle(*PADDLE_LEFT_RECT)
-        lp_entity = self.create_entity(lp_rectangle)
+        lp_collision_rectangle = Collision()
+        lp_entity = self.create_entity(lp_rectangle, lp_collision_rectangle)
         self.add_component(
             lp_entity,
             KeyboardInput(
