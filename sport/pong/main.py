@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import pygame
 
 from mesper.components.collision import Collision
@@ -17,7 +19,8 @@ from mesper.processors.renderer import Renderer
 from mesper.processors.sprite_mover import SpriteMover
 from mesper.processors.updater import Updater
 from sport.pong import config
-from sport.pong.config import FPS, PADDLE_LEFT_RECT, PADDLE_SPEED, GAME_LIMITS
+from sport.pong.config import FPS, PADDLE_LEFT_RECT, PADDLE_SPEED, GAME_LIMITS, PADDLE_RIGHT_RECT, PADDLE_LEFT_INPUT, \
+    PADDLE_RIGHT_INPUT
 
 
 class Game(World):
@@ -29,29 +32,9 @@ class Game(World):
         window = Window(config.WINDOW_SIZE)
         self.create_entity(window)
 
-        # Left Paddle Entity
-        lp_rectangle = Rectangle(*PADDLE_LEFT_RECT)
-        lp_collision_rectangle = Collision()
-        lp_limit = LimitPosition(*GAME_LIMITS)
-        lp_surface = pygame.Surface(PADDLE_LEFT_RECT[2:4])
-        lp_surface.fill(pygame.Color("white"))
-        lp_sprite = Sprite(lp_surface, PADDLE_LEFT_RECT[0:2])
-        lp_follow_rectangle = SpriteFollowRectangle()
-
-        lp_entity = self.create_entity(
-            lp_rectangle, lp_collision_rectangle, lp_limit, lp_sprite, lp_follow_rectangle
-        )
-
-        self.add_component(
-            lp_entity,
-            KeyboardInput(
-                {
-                    pygame.K_UP: self.move_paddle_up,
-                    pygame.K_DOWN: self.move_paddle_down,
-                },
-                is_repeated=True
-            )
-        )
+        # Paddle Entities
+        self.create_paddle(PADDLE_LEFT_RECT, PADDLE_LEFT_INPUT)
+        self.create_paddle(PADDLE_RIGHT_RECT, PADDLE_RIGHT_INPUT)
 
         self.add_processor(Renderer(FPS))
         self.add_processor(Updater())
@@ -61,10 +44,35 @@ class Game(World):
         self.add_processor(LimitPositionChecker())
         self.add_processor(BackToLimitMover())
 
-    def move_paddle_up(self, ent: int, world: World):
+    def create_paddle(self, paddle_rect: Tuple[int, int, int, int], inputs: Tuple[int,int]):
+        paddle_rectangle = Rectangle(*paddle_rect)
+        paddle_collision_rectangle = Collision()
+        paddle_limit = LimitPosition(*GAME_LIMITS)
+        paddle_surface = pygame.Surface(paddle_rect[2:4])
+        paddle_surface.fill(pygame.Color("white"))
+        paddle_sprite = Sprite(paddle_surface, paddle_rect[0:2])
+        paddle_follow_rectangle = SpriteFollowRectangle()
+        paddle_entity = self.create_entity(
+            paddle_rectangle, paddle_collision_rectangle, paddle_limit, paddle_sprite, paddle_follow_rectangle
+        )
+        self.add_component(
+            paddle_entity,
+            KeyboardInput(
+                {
+                    inputs[0]: self.move_paddle_up,
+                    inputs[1]: self.move_paddle_down,
+                },
+                is_repeated=True
+            )
+        )
+        return paddle_entity
+
+    @staticmethod
+    def move_paddle_up(ent: int, world: World):
         world.publish(MoveRectangle(ent, 0, - world.process_dt * PADDLE_SPEED))
 
-    def move_paddle_down(self, ent: int, world: World):
+    @staticmethod
+    def move_paddle_down(ent: int, world: World):
         world.publish(MoveRectangle(ent, 0, + world.process_dt * PADDLE_SPEED))
 
 

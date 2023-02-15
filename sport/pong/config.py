@@ -1,3 +1,5 @@
+import pygame
+
 WINDOW_SIZE = (800, 840)
 
 FPS = 60
@@ -7,3 +9,7 @@ GAME_LIMITS = (0, 800, 0, 840)
 PADDLE_SPEED = 500
 
 PADDLE_LEFT_RECT = (5, 400, 20, 80)
+PADDLE_LEFT_INPUT = (pygame.K_z, pygame.K_s)
+
+PADDLE_RIGHT_RECT = (775, 400, 20, 80)
+PADDLE_RIGHT_INPUT = (pygame.K_UP, pygame.K_DOWN)
