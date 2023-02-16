@@ -20,7 +20,7 @@ from mesper.processors.sprite_mover import SpriteMover
 from mesper.processors.updater import Updater
 from sport.pong import config
 from sport.pong.config import FPS, PADDLE_LEFT_RECT, PADDLE_SPEED, GAME_LIMITS, PADDLE_RIGHT_RECT, PADDLE_LEFT_INPUT, \
-    PADDLE_RIGHT_INPUT
+    PADDLE_RIGHT_INPUT, CENTER_LINE_SPRITE
 
 
 class Game(World):
@@ -35,6 +35,9 @@ class Game(World):
         # Paddle Entities
         self.create_paddle(PADDLE_LEFT_RECT, PADDLE_LEFT_INPUT)
         self.create_paddle(PADDLE_RIGHT_RECT, PADDLE_RIGHT_INPUT)
+
+        # center line
+        self.create_entity(Sprite(CENTER_LINE_SPRITE, (GAME_LIMITS[1]//2, 0)))
 
         self.add_processor(Renderer(FPS))
         self.add_processor(Updater())
