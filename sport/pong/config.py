@@ -26,3 +26,6 @@ PADDLE_RIGHT_RECT = (775, 400, 20, 80)
 PADDLE_RIGHT_INPUT = (pygame.K_UP, pygame.K_DOWN)
 
 CENTER_LINE_SPRITE = draw_center_line()
+
+BALL_RECT = (380, 420, 10, 10)
+BALL_SPEED = (-400, 400)

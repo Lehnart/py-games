@@ -6,8 +6,8 @@ from mesper.components.collision import Collision
 from mesper.components.keyboard_input import KeyboardInput
 from mesper.components.limit_position import LimitPosition
 from mesper.components.rectangle import Rectangle
+from mesper.components.speed import Speed
 from mesper.components.sprite import Sprite
-from mesper.components.sprite_follow_rectangle import SpriteFollowRectangle
 from mesper.components.window import Window
 from mesper.events.move_rectangle import MoveRectangle
 from mesper.mesper import World
@@ -20,7 +20,7 @@ from mesper.processors.sprite_mover import SpriteMover
 from mesper.processors.updater import Updater
 from sport.pong import config
 from sport.pong.config import FPS, PADDLE_LEFT_RECT, PADDLE_SPEED, GAME_LIMITS, PADDLE_RIGHT_RECT, PADDLE_LEFT_INPUT, \
-    PADDLE_RIGHT_INPUT, CENTER_LINE_SPRITE
+    PADDLE_RIGHT_INPUT, CENTER_LINE_SPRITE, BALL_RECT, BALL_SPEED
 
 
 class Game(World):
@@ -39,6 +39,16 @@ class Game(World):
         # center line
         self.create_entity(Sprite(CENTER_LINE_SPRITE, (GAME_LIMITS[1]//2, 0)))
 
+        # ball
+        rectangle = Rectangle(*BALL_RECT)
+        collision = Collision()
+        rect_limit = LimitPosition(*GAME_LIMITS)
+        ball_surface = pygame.Surface(BALL_RECT[2:4])
+        ball_surface.fill(pygame.Color("white"))
+        rect_sprite = Sprite(ball_surface)
+        speed = Speed(*BALL_SPEED)
+        self.create_entity(rectangle, rect_limit, rect_sprite, collision, speed)
+
         self.add_processor(Renderer(FPS))
         self.add_processor(Updater())
         self.add_processor(RectangleMover())
@@ -54,10 +64,8 @@ class Game(World):
         paddle_surface = pygame.Surface(paddle_rect[2:4])
         paddle_surface.fill(pygame.Color("white"))
         paddle_sprite = Sprite(paddle_surface, paddle_rect[0:2])
-        paddle_follow_rectangle = SpriteFollowRectangle()
         paddle_entity = self.create_entity(
-            paddle_rectangle, paddle_collision_rectangle, paddle_limit, paddle_sprite, paddle_follow_rectangle
-        )
+            paddle_rectangle, paddle_collision_rectangle, paddle_limit, paddle_sprite)
         self.add_component(
             paddle_entity,
             KeyboardInput(
