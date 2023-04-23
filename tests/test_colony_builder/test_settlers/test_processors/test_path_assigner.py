@@ -2,7 +2,7 @@ from mesper.mesper import World
 from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.events.need_hauler import NeedHauler
 from colony_builder.settlers.processors.path_assigner import PathAssigner
-from tests.test_settlers.test_components.test_path import TestPath
+from tests.test_colony_builder.test_settlers.test_components.test_path import TestPath
 
 
 class TestPathAssigner:

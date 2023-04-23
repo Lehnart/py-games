@@ -7,7 +7,7 @@ from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.components.resource import Resource, ResourceType
 from colony_builder.settlers.events.move_agent import MoveAgent
 from colony_builder.settlers.processors.hauler_updater import HaulerUpdater
-from tests.test_settlers.test_components.test_path import TestPath
+from tests.test_colony_builder.test_settlers.test_components.test_path import TestPath
 
 
 class TestHaulerUpdater:
@@ -30,15 +30,23 @@ class TestHaulerUpdater:
         assert move_agent_event.destination[0] == 1.5
         assert move_agent_event.destination[1] == 0.5
 
-    def test_compute_mean_position(self):
+
+    def test_stop_moving(self):
         world = World()
         hauler_updater = HaulerUpdater()
         world.add_processor(hauler_updater)
+
         path = TestPath.create_test_path(world)
-        path_comp = world.component_for_entity(path, Path)
-        mean_pos_x, mean_pos_y = hauler_updater.compute_path_mean_position(path_comp)
-        assert mean_pos_x == 1.5
-        assert mean_pos_y == 0.5
+
+        hauler = Hauler(path)
+        hauler.state = Hauler.State.MOVING_TO_PATH
+        hauler_ent = world.create_entity(Hauler(path), Agent((1.5, 0.5), 1.))
+
+        world.process()  # Stop moving
+
+        hauler_comp = world.component_for_entity(hauler_ent, Hauler)
+        assert hauler_comp.state == Hauler.State.IDLE
+
 
     def test_compute_path_position(self):
         world = World()

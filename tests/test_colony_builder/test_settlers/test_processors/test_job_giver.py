@@ -4,7 +4,7 @@ from colony_builder.settlers.components.hauler import Hauler
 from colony_builder.settlers.components.path import Path
 from colony_builder.settlers.events.need_hauler import NeedHauler
 from colony_builder.settlers.processors.job_giver import JobGiver
-from tests.test_settlers.test_components.test_path import TestPath
+from tests.test_colony_builder.test_settlers.test_components.test_path import TestPath
 
 
 class TestJobGiver:
