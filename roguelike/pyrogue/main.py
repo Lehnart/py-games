@@ -1,7 +1,7 @@
 from mesper.components.window import Window
 from mesper.mesper import World
 from mesper.processors.renderer import Renderer
-from mesper.processors.updater import Updater
+from mesper.processors.keyboard_updater import KeyboardUpdater
 from roguelike.pyrogue import config
 
 
@@ -14,7 +14,7 @@ class Game(World):
         self.create_entity(window)
 
         self.add_processor(Renderer(60))
-        self.add_processor(Updater())
+        self.add_processor(KeyboardUpdater())
 
 
 if __name__ == '__main__':

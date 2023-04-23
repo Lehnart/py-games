@@ -5,7 +5,7 @@ from mesper.mesper import World
 from mesper. processors.grid_mover import GridMover
 from mesper. processors.renderer import Renderer
 from mesper. processors.sprite_mover import SpriteMover
-from mesper. processors.updater import Updater
+from mesper. processors.keyboard_updater import KeyboardUpdater
 from colony_builder.settlers import config, cursor
 from colony_builder.settlers.components.agent import Agent
 from colony_builder.settlers.components.flag import Flag
@@ -39,7 +39,6 @@ class Game(World):
             ResourceDestination()
         )
 
-
         self.create_entity(
             Sprite(config.WOOD_SURFACE, (320, 256+(16*3)), config.RESSOURCE_LAYER),
             Resource(ResourceType.WOOD),
@@ -72,7 +71,7 @@ class Game(World):
                 )
 
         self.add_processor(Renderer(60))
-        self.add_processor(Updater())
+        self.add_processor(KeyboardUpdater())
         self.add_processor(SpriteMover())
         self.add_processor(GridMover())
         self.add_processor(RoadBuilder())
